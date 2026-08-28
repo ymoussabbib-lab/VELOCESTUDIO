@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, Send, CheckCircle } from 'lucide-react';
+import { X, CheckCircle } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -19,60 +19,93 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     setTimeout(() => {
       setSubmitted(false);
       onClose();
-    }, 2000);
+    }, 2200);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-md">
-      <div className="relative w-full max-w-lg rounded-2xl border border-surfaceHover bg-surface p-6 sm:p-8 shadow-2xl">
-        <button onClick={onClose} className="absolute top-4 right-4 text-mutedText hover:text-brightText">
-          <X className="h-5 w-5"/>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/75 backdrop-blur-[6px]">
+      <div className="relative w-full max-w-lg bg-paper border border-ink p-8 shadow-2xl text-ink">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-grey-400 hover:text-ink transition-colors cursor-pointer"
+        >
+          <X className="h-5 w-5" />
         </button>
 
         {submitted ? (
-          <div className="py-12 text-center">
-            <CheckCircle className="mx-auto h-12 w-12 text-statusEmerald mb-4"/>
-            <h3 className="text-2xl font-bold text-brightText">Audit Request Received</h3>
-            <p className="mt-2 text-sm text-mutedText">We will evaluate your requirements and contact you within 24 hours.</p>
+          <div className="py-10 text-center">
+            <CheckCircle className="mx-auto h-12 w-12 text-accent mb-4" />
+            <h3 className="text-2xl font-extrabold text-ink">Audit Request Received</h3>
+            <p className="mt-2 text-sm text-ink-muted leading-relaxed">
+              We have received your details. We will map your operational bottlenecks and respond within 24 hours.
+            </p>
           </div>
         ) : (
           <>
-            <h3 className="text-2xl font-bold text-brightText">Schedule Architecture Audit</h3>
-            <p className="mt-1 text-xs text-mutedText">Describe your business model and manual operational bottlenecks.</p>
+            <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-accent mb-2">
+              Architecture & Workflow Audit
+            </div>
+            <h3 className="text-2xl font-extrabold tracking-tight text-ink">
+              Schedule a Workflow Audit
+            </h3>
+            <p className="mt-1 text-xs text-grey-600">
+              One session to map your day and identify where manual friction costs you money.
+            </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4 font-sans text-sm">
               <div>
-                <label className="block text-xs font-semibold text-brightText mb-1">Full Name</label>
-                <input required type="text" placeholder="Alex Morgan" className="w-full rounded-xl border border-surfaceHover bg-obsidian px-4 py-2.5 text-sm text-brightText focus:border-accentCyan focus:outline-none" />
+                <label className="block font-mono text-[11px] uppercase tracking-[0.05em] text-ink mb-1">
+                  Full Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Younes M."
+                  className="w-full border border-line bg-paper-alt px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none"
+                />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-brightText mb-1">Business Email</label>
-                <input required type="email" placeholder="alex@company.com" className="w-full rounded-xl border border-surfaceHover bg-obsidian px-4 py-2.5 text-sm text-brightText focus:border-accentCyan focus:outline-none" />
+                <label className="block font-mono text-[11px] uppercase tracking-[0.05em] text-ink mb-1">
+                  Business Email
+                </label>
+                <input
+                  required
+                  type="email"
+                  placeholder="contact@business.ma"
+                  className="w-full border border-line bg-paper-alt px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none"
+                />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-brightText mb-1">Industry Vertical</label>
-                <select className="w-full rounded-xl border border-surfaceHover bg-obsidian px-4 py-2.5 text-sm text-brightText focus:border-accentCyan focus:outline-none">
+                <label className="block font-mono text-[11px] uppercase tracking-[0.05em] text-ink mb-1">
+                  Industry Vertical
+                </label>
+                <select className="w-full border border-line bg-paper-alt px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none">
                   <option>Fitness & Gym Operations</option>
-                  <option>Real Estate & Marketplace</option>
-                  <option>Salon & Spa Booking</option>
+                  <option>Real Estate & Agency CRM</option>
+                  <option>Salon, Spa & Appointment Operations</option>
                   <option>Restaurant & QR Ordering Ecosystem</option>
                   <option>Custom Enterprise Automation</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-brightText mb-1">Bottlenecks & Goals</label>
-                <textarea rows={3} placeholder="Describe processes you want automated..." className="w-full rounded-xl border border-surfaceHover bg-obsidian px-4 py-2.5 text-sm text-brightText focus:border-accentCyan focus:outline-none" />
+                <label className="block font-mono text-[11px] uppercase tracking-[0.05em] text-ink mb-1">
+                  What part of the day goes wrong?
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Describe your current manual steps, spreadsheets or bottlenecks..."
+                  className="w-full border border-line bg-paper-alt px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none"
+                />
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accentCyan to-accentTeal py-3 text-sm font-semibold text-obsidian shadow-lg shadow-accentCyan/20 hover:opacity-95 transition-opacity"
+                className="w-full bg-accent text-on-dark py-3.5 font-mono text-[12px] uppercase tracking-[0.08em] hover:bg-ink transition-colors cursor-pointer mt-2"
               >
-                <span>Submit Audit Request</span>
-                <Send className="h-4 w-4"/>
+                Submit Audit Request →
               </button>
             </form>
           </>

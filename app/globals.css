@@ -3,12 +3,99 @@
 @tailwind utilities;
 
 :root {
-  --background: #0B0F17;
-  --foreground: #F8FAFC;
+  --background: #F2EFE8;
+  --foreground: #17150F;
+  --accent: #C7371A;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #F2EFE8;
+  color: #17150F;
+  font-family: var(--font-archivo), Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #17150F;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: #C7371A;
+}
+
+::selection {
+  background: #C7371A;
+  color: #F2EFE8;
+}
+
+/* Animations */
+@keyframes vs-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes vs-blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.15; }
+}
+
+@keyframes vs-logIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vs-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vs-ping {
+  0% { r: 3.5; opacity: 1; }
+  100% { r: 13; opacity: 0; }
+}
+
+.animate-vs-slide {
+  animation: vs-slide 42s linear infinite;
+}
+
+.animate-vs-blink {
+  animation: vs-blink 2.4s steps(1) infinite;
+}
+
+.animate-vs-rise {
+  animation: vs-rise 800ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.animate-vs-rise-case {
+  animation: vs-rise 620ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Scroll reveal initial states */
+[data-reveal="1"] {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-vs-slide {
+    animation: none !important;
+  }
+  .animate-vs-blink {
+    animation: none !important;
+  }
+  .animate-vs-rise {
+    animation: none !important;
+  }
+  [data-reveal="1"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

@@ -1,98 +1,162 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Navbar } from '@/components/Navbar';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
-import { CapabilityMatrix } from '@/components/CapabilityMatrix';
-import { ProjectCard } from '@/components/ProjectCard';
+import { MarqueeTicker } from '@/components/MarqueeTicker';
+import { ProductionDial } from '@/components/ProductionDial';
+import { ProductionIndex } from '@/components/ProductionIndex';
+import { WhatWeRemove } from '@/components/WhatWeRemove';
+import { HowABuildRuns } from '@/components/HowABuildRuns';
+import { ContactBand } from '@/components/ContactBand';
+import { CaseStudyView } from '@/components/CaseStudyView';
 import { ContactModal } from '@/components/ContactModal';
-import { PROJECTS_DATA } from '@/data/projects';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
-  const [isConsultOpen, setIsConsultOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('ALL');
+  const [view, setView] = useState<'home' | 'case'>('home');
+  const [slug, setSlug] = useState<string>('fitpulse');
+  const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [isConsultOpen, setIsConsultOpen] = useState<boolean>(false);
 
-  const categories = ['ALL', 'Fitness & Wellness SaaS', 'Real Estate Technology', 'Beauty & Wellness Operations', 'Restaurant Operations & CX'];
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const revealTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const filteredProjects = activeCategory === 'ALL'
-    ? PROJECTS_DATA
-    : PROJECTS_DATA.filter(p => p.category === activeCategory);
+  // Scroll reveal setup
+  const setupReveal = useCallback(() => {
+    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return;
+
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+    if (revealTimerRef.current) {
+      clearTimeout(revealTimerRef.current);
+    }
+
+    const revealElement = (el: HTMLElement) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    };
+
+    const nodes = document.querySelectorAll<HTMLElement>('[data-reveal="1"]');
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting && e.boundingClientRect.top >= 0) return;
+          revealElement(e.target as HTMLElement);
+          observerRef.current?.unobserve(e.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    nodes.forEach((n, i) => {
+      const r = n.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.92 || r.top < 0) {
+        revealElement(n);
+        return;
+      }
+      n.style.opacity = '0';
+      n.style.transform = 'translateY(24px)';
+      n.style.transition = `opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1) ${(i % 4) * 70}ms, transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1) ${(i % 4) * 70}ms`;
+      observerRef.current?.observe(n);
+    });
+
+    // Hard fallback after 9s so content is never stranded
+    revealTimerRef.current = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>('[data-reveal="1"]').forEach(revealElement);
+    }, 9000);
+  }, []);
+
+  useEffect(() => {
+    if (view === 'home') {
+      setupReveal();
+    }
+    return () => {
+      observerRef.current?.disconnect();
+      if (revealTimerRef.current) clearTimeout(revealTimerRef.current);
+    };
+  }, [view, setupReveal]);
+
+  // Navigate to Case View
+  const handleSelectProject = (projectSlug: string) => {
+    setSlug(projectSlug);
+    setView('case');
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Return to Homepage with optional anchor scrolling
+  const handleGoHome = (hash?: string) => {
+    if (view === 'case') {
+      setView('home');
+      setTimeout(() => {
+        if (!hash || hash === '#top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const target = document.querySelector(hash);
+          if (target) {
+            const topOffset = target.getBoundingClientRect().top + window.scrollY - 84;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          }
+        }
+        setupReveal();
+      }, 60);
+    } else {
+      if (!hash || hash === '#top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const target = document.querySelector(hash);
+        if (target) {
+          const topOffset = target.getBoundingClientRect().top + window.scrollY - 84;
+          window.scrollTo({ top: topOffset, behavior: 'smooth' });
+        }
+      }
+    }
+  };
 
   return (
-    <main className="min-h-screen bg-obsidian">
-      <Navbar onOpenConsult={() => setIsConsultOpen(true)} />
-      <Hero onOpenConsult={() => setIsConsultOpen(true)} />
-      <CapabilityMatrix />
+    <div className="bg-paper text-ink font-sans min-h-screen">
+      <Header
+        onGoHome={handleGoHome}
+        onOpenConsult={() => setIsConsultOpen(true)}
+      />
 
-      <section id="showcase" className="py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
-              <h2 className="text-xs font-semibold tracking-widest text-accentCyan uppercase">Production Solutions</h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-brightText sm:text-4xl">Deployed B2B Platforms</p>
-            </div>
+      {view === 'home' ? (
+        <main>
+          <Hero />
+          <MarqueeTicker />
+          <ProductionDial />
+          <ProductionIndex
+            activeIdx={activeIdx}
+            onHoverProject={setActiveIdx}
+            onSelectProject={handleSelectProject}
+          />
+          <WhatWeRemove />
+          <HowABuildRuns />
+          <ContactBand
+            onOpenConsult={() => setIsConsultOpen(true)}
+            onGoIndex={() => handleGoHome('#index')}
+          />
+        </main>
+      ) : (
+        <main>
+          <CaseStudyView
+            slug={slug}
+            onGoHome={handleGoHome}
+            onSelectProject={handleSelectProject}
+          />
+        </main>
+      )}
 
-            <div className="mt-6 md:mt-0 flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`rounded-xl px-4 py-2 text-xs font-semibold transition-all ${
-                    activeCategory === cat
-                      ? 'bg-accentCyan text-obsidian shadow-md shadow-accentCyan/20'
-                      : 'bg-surface border border-surfaceHover text-mutedText hover:text-brightText'
-                  }`}
-                >
-                  {cat === 'ALL' ? 'All Systems' : cat}
-                </button>
-              ))}
-            </div>
-          </div>
+      <Footer />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="process" className="py-20 border-t border-surfaceHover bg-surface/30">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs font-semibold tracking-widest text-accentCyan uppercase">Execution Strategy</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-brightText sm:text-4xl">How We Build Your Software</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { step: "01", title: "Workflow Audit", desc: "We map your operational steps and identify manual friction points." },
-              { step: "02", title: "UX Blueprint", desc: "Designing low-friction interfaces for internal team members and buyers." },
-              { step: "03", title: "Full-Stack Dev", desc: "Engineered with Next.js 14, TypeScript, and database integrations." },
-              { step: "04", title: "Launch & Support", desc: "Connect WhatsApp messaging, POS terminal gateways, and live cloud hosting." }
-            ].map((p, i) => (
-              <div key={i} className="rounded-2xl border border-surfaceHover bg-obsidian p-6">
-                <span className="text-3xl font-black text-accentCyan/40 block mb-4">{p.step}</span>
-                <h3 className="text-lg font-bold text-brightText mb-2">{p.title}</h3>
-                <p className="text-xs text-mutedText leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-surfaceHover bg-obsidian py-12">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-xs text-mutedText">© 2026 VELOCE STUDIO. Custom B2B Software Engineering.</p>
-          <div className="flex items-center gap-6 text-xs text-mutedText">
-            <a href="#capabilities" className="hover:text-brightText">Capabilities</a>
-            <a href="#showcase" className="hover:text-brightText">Work Portfolio</a>
-            <button onClick={() => setIsConsultOpen(true)} className="hover:text-accentCyan">Book Consult</button>
-          </div>
-        </div>
-      </footer>
-
-      <ContactModal isOpen={isConsultOpen} onClose={() => setIsConsultOpen(false)} />
-    </main>
+      <ContactModal
+        isOpen={isConsultOpen}
+        onClose={() => setIsConsultOpen(false)}
+      />
+    </div>
   );
 }

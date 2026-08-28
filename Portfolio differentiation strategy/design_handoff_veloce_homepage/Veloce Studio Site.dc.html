@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #F2EFE8; }
+  * { box-sizing: border-box; }
+  a { color: #17150F; text-decoration: none; }
+  a:hover { color: #C7371A; }
+  ::selection { background: #C7371A; color: #F2EFE8; }
+  @keyframes vs-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes vs-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.15; } }
+</style>
+</helmet>
+<div style="background: #F2EFE8; color: #17150F; font-family: Archivo, sans-serif; min-height: 100vh; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(242,239,232,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #17150F;">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 0 40px; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+      <a href="#top" onClick="{{ goHome }}" style="display: flex; align-items: baseline; gap: 10px; cursor: pointer;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; letter-spacing: -0.02em;">VELOCE</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 15px; color: #8A857A;">STUDIO</span>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 28px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase;">
+        <a href="#index" onClick="{{ goHome }}" style="cursor: pointer;">Systems</a>
+        <a href="#work" onClick="{{ goHome }}" style="cursor: pointer;">What we remove</a>
+        <a href="#method" onClick="{{ goHome }}" style="cursor: pointer;">Method</a>
+        <a href="#contact" style="background: #17150F; color: #F2EFE8; padding: 9px 16px 8px;">Book an audit →</a>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+
+    <section id="top" style="max-width: 1440px; margin: 0 auto; padding: 96px 40px 0;">
+      <div style="display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: end;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857A; margin-bottom: 40px;">
+            <span style="width: 7px; height: 7px; background: #C7371A; border-radius: 50%; animation: vs-blink 2.4s steps(1) infinite;"></span>
+            <span>Casablanca — software engineering studio</span>
+          </div>
+          <h1 style="font-size: clamp(48px, 6.4vw, 104px); line-height: 0.92; letter-spacing: -0.04em; font-weight: 900; margin: 0; text-wrap: balance;">
+            Five businesses<br />run their entire day<br />on software<br />
+            <span style="font-weight: 400; font-style: italic; font-family: Archivo, sans-serif;">we</span> built.
+          </h1>
+        </div>
+        <div style="border-left: 1px solid #17150F; padding-left: 24px; padding-bottom: 8px;">
+          <p style="margin: 0 0 20px; font-size: 16.5px; line-height: 1.5; color: #3B372E;">Not landing pages. The booking engine, the till, the kitchen screen, the door terminal — the system the staff open at 8am and close at midnight.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.04em; color: #8A857A;">
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid #D6D1C5; padding-top: 8px;"><span>In production</span><span style="color: #17150F;">5 systems</span></div>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid #D6D1C5; padding-top: 8px;"><span>Sectors</span><span style="color: #17150F;">4</span></div>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid #D6D1C5; padding-top: 8px;"><span>Stack</span><span style="color: #17150F;">Next.js 14 · TS</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 72px; border-top: 1px solid #17150F; border-bottom: 1px solid #17150F; overflow: hidden; background: #17150F; color: #F2EFE8;">
+      <div style="display: flex; width: max-content; animation: vs-slide 42s linear infinite;">
+        <div style="display: flex; align-items: center; gap: 40px; padding: 13px 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">{{ tickerA }}</div>
+        <div style="display: flex; align-items: center; gap: 40px; padding: 13px 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">{{ tickerB }}</div>
+      </div>
+    </section>
+
+    <section id="index" style="max-width: 1440px; margin: 0 auto; padding: 80px 40px 0;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #17150F; padding-bottom: 14px; margin-bottom: 0;">
+        <h2 style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;">Production index</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A857A;">Hover to preview · click to read the build</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: start;">
+        <div>
+          <sc-for list="{{ projects }}" as="p" hint-placeholder-count="4">
+            <a href="#case" onClick="{{ p.open }}" onMouseEnter="{{ p.hover }}" style="display: grid; grid-template-columns: 46px 1fr auto; gap: 20px; align-items: start; padding: 26px 4px 24px; border-bottom: 1px solid #D6D1C5; cursor: pointer;" style-hover="background: #EAE6DC;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A857A; padding-top: 7px;">{{ p.no }}</span>
+              <span>
+                <span style="display: block; font-size: 30px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.1;">{{ p.name }}</span>
+                <span style="display: block; margin-top: 7px; font-size: 15px; color: #3B372E; max-width: 46ch; line-height: 1.45;">{{ p.oneLine }}</span>
+                <span style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;">
+                  <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid #C9C4B7; padding: 4px 8px 3px; color: #5A554A;">{{ t }}</span>
+                  </sc-for>
+                </span>
+              </span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #8A857A; padding-top: 9px; text-align: right;">
+                <span style="display: block; color: #17150F;">{{ p.sector }}</span>
+                <span style="display: block; margin-top: 5px;">{{ p.status }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+
+        <div style="position: sticky; top: 108px; padding-top: 26px;">
+          <div style="position: relative; border: 1px solid #17150F; background: #17150F; aspect-ratio: 555 / 300; overflow: hidden;">
+            <sc-for list="{{ projects }}" as="p" hint-placeholder-count="4">
+              <div role="img" aria-label="{{ p.name }}" style="{{ p.previewStyle }}"></div>
+            </sc-for>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: #8A857A;">
+            <span style="color: #17150F;">{{ activeName }}</span>
+            <span>{{ activeStack }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" style="max-width: 1440px; margin: 120px auto 0; padding: 0 40px;">
+      <div style="border-top: 1px solid #17150F; padding-top: 14px; display: flex; align-items: baseline; justify-content: space-between;">
+        <h2 style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;">What we remove</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A857A;">03 recurring failures</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #D6D1C5; margin-top: 40px; border: 1px solid #D6D1C5;">
+        <sc-for list="{{ removals }}" as="r" hint-placeholder-count="3">
+          <div style="background: #F2EFE8; padding: 34px 30px 40px;" style-hover="background: #EAE6DC;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #C7371A; letter-spacing: 0.08em;">{{ r.no }}</div>
+            <h3 style="margin: 18px 0 14px; font-size: 25px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance;">{{ r.title }}</h3>
+            <p style="margin: 0 0 22px; font-size: 15.5px; line-height: 1.55; color: #3B372E;">{{ r.body }}</p>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #8A857A; border-top: 1px solid #D6D1C5; padding-top: 12px;">Replaced by → {{ r.replacedBy }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="method" style="max-width: 1440px; margin: 120px auto 0; padding: 0 40px;">
+      <div style="border-top: 1px solid #17150F; padding-top: 14px; display: flex; align-items: baseline; justify-content: space-between;">
+        <h2 style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;">How a build runs</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A857A;">Four phases, one team</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 44px;">
+        <sc-for list="{{ method }}" as="m" hint-placeholder-count="4">
+          <div style="border-top: 2px solid #17150F; padding-top: 18px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 42px; font-weight: 900; letter-spacing: -0.04em; line-height: 1;">{{ m.no }}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A857A; letter-spacing: 0.05em; text-transform: uppercase;">{{ m.dur }}</span>
+            </div>
+            <h3 style="margin: 20px 0 10px; font-size: 19px; font-weight: 800; letter-spacing: -0.015em;">{{ m.title }}</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3B372E;">{{ m.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="contact" style="margin: 120px 0 0; background: #17150F; color: #F2EFE8;">
+      <div style="max-width: 1440px; margin: 0 auto; padding: 96px 40px 88px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end;">
+        <div>
+          <h2 style="margin: 0; font-size: clamp(38px, 4.6vw, 68px); line-height: 0.98; letter-spacing: -0.035em; font-weight: 900; text-wrap: balance;">Tell us the part of the day that always goes wrong.</h2>
+          <p style="margin: 26px 0 0; font-size: 17px; line-height: 1.55; color: #A8A29A; max-width: 56ch;">A workflow audit is one session. We sit with the people doing the manual work, map every step, and come back with what software should own and what it shouldn't.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <a href="#contact" style="background: #C7371A; color: #F2EFE8; padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;" style-hover="background: #F2EFE8; color: #17150F;"><span>Book a workflow audit</span><span>→</span></a>
+          <a href="#index" onClick="{{ goHome }}" style="border: 1px solid #4A453C; color: #F2EFE8; padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" style-hover="border-color: #F2EFE8;"><span>Read a build in full</span><span>↑</span></a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCase }}" hint-placeholder-val="{{ false }}">
+  <article>
+    <section style="max-width: 1440px; margin: 0 auto; padding: 64px 40px 0;">
+      <a href="#index" onClick="{{ goHome }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A857A; cursor: pointer;">← Production index</a>
+      <div style="display: grid; grid-template-columns: 1fr 340px; gap: 64px; align-items: end; margin-top: 44px; border-bottom: 1px solid #17150F; padding-bottom: 40px;">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #C7371A;">{{ p.no }} — {{ p.sector }}</div>
+          <h1 style="margin: 22px 0 0; font-size: clamp(44px, 5.6vw, 88px); line-height: 0.93; letter-spacing: -0.04em; font-weight: 900;">{{ p.name }}</h1>
+          <p style="margin: 24px 0 0; font-size: 21px; line-height: 1.42; color: #3B372E; max-width: 44ch; text-wrap: pretty;">{{ p.oneLine }}</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.04em;">
+          <sc-for list="{{ p.spec }}" as="s" hint-placeholder-count="5">
+            <div style="display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid #D6D1C5; padding-top: 9px;">
+              <span style="color: #8A857A; text-transform: uppercase;">{{ s.k }}</span>
+              <span style="text-align: right;">{{ s.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: 0 40px;">
+      <div role="img" aria-label="{{ caseName }}" style="{{ caseShotStyle }}"></div>
+      <div style="display: flex; justify-content: space-between; margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #8A857A;">
+        <span>{{ p.shotCaption }}</span>
+        <span>Live production environment</span>
+      </div>
+    </section>
+
+    <section style="max-width: 1440px; margin: 96px auto 0; padding: 0 40px;">
+      <sc-for list="{{ p.chapters }}" as="c" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 340px 1fr; gap: 64px; border-top: 1px solid #17150F; padding: 34px 0 56px; align-items: start;">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857A;">{{ c.label }}</div>
+            <h2 style="margin: 16px 0 0; font-size: 29px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.12; text-wrap: balance;">{{ c.title }}</h2>
+          </div>
+          <div>
+            <sc-for list="{{ c.paras }}" as="t" hint-placeholder-count="2">
+              <p style="margin: 0 0 18px; font-size: 18px; line-height: 1.58; color: #2A2620; max-width: 68ch; text-wrap: pretty;">{{ t }}</p>
+            </sc-for>
+            <sc-if value="{{ c.hasList }}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #D6D1C5; border: 1px solid #D6D1C5; margin-top: 26px;">
+                <sc-for list="{{ c.list }}" as="li" hint-placeholder-count="4">
+                  <div style="background: #F2EFE8; padding: 20px 22px;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #C7371A;">{{ li.k }}</div>
+                    <div style="margin-top: 8px; font-size: 15.5px; line-height: 1.45; color: #2A2620;">{{ li.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: 0 40px 8px;">
+      <div style="border-top: 1px solid #17150F; padding-top: 34px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857A;">Workflow it owns</div>
+        <div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; margin-top: 26px; border: 1px solid #17150F;">
+          <sc-for list="{{ p.flow }}" as="f" hint-placeholder-count="4">
+            <div style="flex: 1 1 180px; padding: 24px 22px 26px; border-right: 1px solid #D6D1C5;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #8A857A;">{{ f.no }}</div>
+              <div style="margin-top: 12px; font-size: 17px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.2;">{{ f.step }}</div>
+              <div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #5A554A;">{{ f.detail }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin: 96px 0 0; background: #17150F; color: #F2EFE8;">
+      <div style="max-width: 1440px; margin: 0 auto; padding: 72px 40px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A857A;">Next build</div>
+        <a href="#case" onClick="{{ openNext }}" style="display: flex; align-items: baseline; justify-content: space-between; gap: 40px; margin-top: 20px; cursor: pointer; color: #F2EFE8;" style-hover="color: #C7371A;">
+          <span style="font-size: clamp(36px, 5vw, 76px); font-weight: 900; letter-spacing: -0.04em; line-height: 1;">{{ nextName }}</span>
+          <span style="font-size: 40px; line-height: 1;">→</span>
+        </a>
+        <p style="margin: 22px 0 0; font-size: 17px; color: #A8A29A; max-width: 58ch; line-height: 1.5;">{{ nextLine }}</p>
+      </div>
+    </section>
+  </article>
+  </sc-if>
+
+  <footer style="border-top: 1px solid #4A453C; background: #17150F; color: #8A857A;">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.05em;">
+      <span>© 2026 Veloce Studio — Casablanca</span>
+      <span>Systems in production, not concepts</span>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C7371A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#C7371A&quot;,&quot;#1B4DE4&quot;,&quot;#0F7B5A&quot;,&quot;#17150F&quot;],&quot;section&quot;:&quot;Identity&quot;}}">
+class Component extends DCLogic {
+  state = { view: 'home', slug: 'fitpulse', active: 0 };
+
+  data() {
+    return [
+      {
+        slug: 'fitpulse', no: '01', name: 'FitPulse PRO', sector: 'Fitness & wellness', status: 'In production',
+        shot: 'assets/proj-fitpulse.png', stack: 'Next.js 14 · TS',
+        oneLine: 'The operating system for a gym: memberships, QR door access, billing and trainer schedules in one place.',
+        tags: ['Member CRM', 'QR access terminal', 'Recurring billing', 'MAD invoicing'],
+        shotCaption: 'Owner dashboard — MRR, live check-ins, expiring memberships',
+        spec: [
+          { k: 'Client', v: 'Club de fitness, Casablanca' },
+          { k: 'Surfaces', v: 'Owner dashboard · front desk · door terminal · member portal' },
+          { k: 'Stack', v: 'Next.js 14, TypeScript, Tailwind' },
+          { k: 'Currency / locale', v: 'MAD · French' },
+          { k: 'Status', v: 'Live, in daily use' }
+        ],
+        chapters: [
+          { label: 'The bottleneck', title: 'Membership was a notebook and the door was a person.',
+            paras: ['Renewals were tracked on paper, so nobody knew who had lapsed until they walked in and argued about it. Access control was whoever happened to be at the desk. Revenue was a monthly guess assembled from receipt books.',
+              'The owner did not need a website. He needed to know, at any hour, how many members are active, how much money is actually committed this month, and who is inside the building right now.'] },
+          { label: 'The decision', title: 'One record per member, everything else reads from it.',
+            paras: ['We refused a multi-tool setup. Instead every surface — the QR terminal at the door, the front-desk screen, the billing run, the trainer calendar — reads and writes the same member record. A membership that expires stops opening the door without anyone doing anything.'],
+            hasList: true,
+            list: [
+              { k: 'Access', v: 'QR pass scanned at a wall terminal; expiry enforced at the door, not the desk.' },
+              { k: 'Billing', v: 'Recurring subscription runs with card collection and MAD invoices.' },
+              { k: 'Scheduling', v: 'Trainer availability with slot locking so two coaches cannot be double-booked.' },
+              { k: 'Notifications', v: 'WhatsApp alerts for pass expiry and unpaid invoices.' }
+            ] },
+          { label: 'What it does now', title: 'The dashboard is the first thing opened and the last thing closed.',
+            paras: ['Active members, committed monthly revenue, today\u2019s check-ins, passes expiring inside seven days and payments still outstanding sit on one screen in MAD. The live entry feed shows each scan at the QR portico as it happens.',
+              'Front desk staff were trained in an afternoon, because the interface is built around the four things they actually do rather than around the database.'] }
+        ],
+        flow: [
+          { no: '01', step: 'Member onboarding', detail: 'Profile, plan, payment method captured once.' },
+          { no: '02', step: 'QR access terminal', detail: 'Pass scanned at the door; expiry enforced automatically.' },
+          { no: '03', step: 'Automated POS & billing', detail: 'Recurring charges, MAD invoices, outstanding tracking.' },
+          { no: '04', step: 'Retention signals', detail: 'Lapse and expiry alerts pushed over WhatsApp.' }
+        ]
+      },
+      {
+        slug: 'estatepulse', no: '02', name: 'EstatePulse', sector: 'Real estate', status: 'In production',
+        shot: 'assets/proj-estatepulse.png', stack: 'Next.js 14 · TS',
+        oneLine: 'A property marketplace with a real sales pipeline behind it — public buyers on one side, agents working leads on the other.',
+        tags: ['Map discovery', 'Lead intake', 'Kanban pipeline', '3D tours'],
+        shotCaption: 'Public buyer search — map discovery with virtual tour listings',
+        spec: [
+          { k: 'Client', v: 'Agence immobilière, Morocco' },
+          { k: 'Surfaces', v: 'Public marketplace · agent CRM · tour scheduler' },
+          { k: 'Stack', v: 'Next.js 14, TypeScript, Tailwind' },
+          { k: 'Currency / locale', v: 'MAD · French' },
+          { k: 'Status', v: 'Live, in daily use' }
+        ],
+        chapters: [
+          { label: 'The bottleneck', title: 'Listings lived on portals; leads died in WhatsApp.',
+            paras: ['Enquiries arrived as messages on personal phones. Whoever saw one first answered it, or nobody did. There was no record of which buyer had seen which property, so agents re-pitched flats people had already rejected.',
+              'The business was losing deals in the gap between a buyer\u2019s interest and an agent noticing it.'] },
+          { label: 'The decision', title: 'Treat the marketplace and the CRM as one system, not two products.',
+            paras: ['Every action a buyer takes on the public side becomes a typed event on the agent side. A search, a saved property, a tour request — all of it lands in the pipeline attached to a named buyer, with the property they were looking at.',
+              'Discovery is map-first because that is how people actually shop for a home: neighbourhood before feature list.'],
+            hasList: true,
+            list: [
+              { k: 'Discovery', v: 'Map-based search with filters on city, type, budget in MAD.' },
+              { k: 'Listing depth', v: '3D virtual tours so buyers self-qualify before a visit.' },
+              { k: 'Pipeline', v: 'Kanban stages from new lead to offer, one card per buyer.' },
+              { k: 'Scheduling', v: 'Private tour booking against agent availability.' }
+            ] },
+          { label: 'What it does now', title: 'An agent opens one board and knows the day.',
+            paras: ['Leads arrive with context attached instead of as a bare phone number. Tours are booked into real availability rather than negotiated over five messages. Nothing sits unassigned, because an unowned lead is visible as an unowned lead.'] }
+        ],
+        flow: [
+          { no: '01', step: 'Map discovery', detail: 'Public buyers filter by area, type and budget.' },
+          { no: '02', step: 'Lead ingestion', detail: 'Interest becomes a typed event on a named buyer.' },
+          { no: '03', step: 'Kanban pipeline', detail: 'Agents move cards through stages to offer.' },
+          { no: '04', step: 'Tour scheduling', detail: 'Private viewings booked against agent calendars.' }
+        ]
+      },
+      {
+        slug: 'salonflow', no: '03', name: 'SalonFlow', sector: 'Beauty & wellness', status: 'In production',
+        shot: 'assets/proj-salonflow.png', stack: 'Next.js 14 · TS',
+        oneLine: 'Salon booking that knows which stylist can actually do the service, plus the POS and the client history behind the chair.',
+        tags: ['Specialist scheduling', 'Double-booking guard', 'POS checkout', 'Client history'],
+        shotCaption: 'Client-facing booking — service selection and specialist availability',
+        spec: [
+          { k: 'Client', v: 'Salon de coiffure & soins, Casablanca' },
+          { k: 'Surfaces', v: 'Client booking · reception · POS terminal · staff rota' },
+          { k: 'Stack', v: 'Next.js 14, TypeScript, Tailwind' },
+          { k: 'Currency / locale', v: 'MAD · French' },
+          { k: 'Status', v: 'Live, in daily use' }
+        ],
+        chapters: [
+          { label: 'The bottleneck', title: 'A shared calendar cannot know that only two people cut curly hair.',
+            paras: ['Generic booking tools sold the salon a slot as if any staff member could fill it. In practice a colour treatment needs a specific colourist, takes ninety minutes, and blocks a basin. Overbooking meant clients waiting in reception while a stylist finished someone else\u2019s appointment.',
+              'Reception was the real system: a person holding the true schedule in their head.'] },
+          { label: 'The decision', title: 'Model the constraint, not the calendar.',
+            paras: ['Services carry a duration, a required skill and a resource. Availability is computed from staff who hold that skill and the resources still free. The slot a client sees is a slot that can genuinely be delivered.',
+              'Checkout was pulled into the same system so the visit, the service performed and the payment stay one record — which is what makes client lifetime value real rather than estimated.'],
+            hasList: true,
+            list: [
+              { k: 'Booking', v: 'Service-first selection, then only the specialists who can perform it.' },
+              { k: 'Guard', v: 'Double-booking prevented at slot level, including shared resources.' },
+              { k: 'Checkout', v: 'POS tied to the appointment, MAD receipts.' },
+              { k: 'History', v: 'Per-client visit and treatment record for retention.' }
+            ] },
+          { label: 'What it does now', title: 'Reception stopped being the database.',
+            paras: ['Clients book without a phone call. Stylists see their own day. The owner sees which services and which staff actually generate revenue, and which clients have not come back.'] }
+        ],
+        flow: [
+          { no: '01', step: 'Service selection', detail: 'Client picks the treatment, not a generic slot.' },
+          { no: '02', step: 'Double-booking guard', detail: 'Skill and resource constraints applied to availability.' },
+          { no: '03', step: 'POS checkout', detail: 'Payment recorded against the appointment.' },
+          { no: '04', step: 'Client retention', detail: 'Visit history drives follow-up and lifetime value.' }
+        ]
+      },
+      {
+        slug: 'restaurant', no: '04', name: 'Restaurant ecosystem', sector: 'Restaurant ops', status: 'Dual system, live',
+        shot: 'assets/proj-restaurant.png', stack: 'Next.js 14 · TS',
+        oneLine: 'Two connected apps: a QR menu guests order from, and a kitchen terminal that dispatches and tracks every ticket.',
+        tags: ['Table QR ordering', 'Kitchen display', 'Direct dispatch', 'Delivery register'],
+        shotCaption: 'Guest-facing QR menu — Il Piatto Gastronomy ordering surface',
+        spec: [
+          { k: 'Deployments', v: 'Il Piatto (guest menu) · Dajjaj Hamoud (kitchen terminal)' },
+          { k: 'Surfaces', v: 'Table QR menu · kitchen display · delivery register' },
+          { k: 'Stack', v: 'Next.js 14, TypeScript, Tailwind' },
+          { k: 'Currency / locale', v: 'MAD · French' },
+          { k: 'Status', v: 'Live, two connected apps' }
+        ],
+        chapters: [
+          { label: 'The bottleneck', title: 'The order was retyped three times before it reached a pan.',
+            paras: ['A guest told a waiter, the waiter wrote a ticket, someone shouted it into the kitchen, and a runner guessed which table it belonged to. Every retype was a chance to lose a modifier or a table number, and at peak nobody could say how long a ticket had been waiting.'] },
+          { label: 'The decision', title: 'The guest\u2019s tap is the kitchen\u2019s ticket. No step in between.',
+            paras: ['Scanning the QR at the table opens the menu bound to that table. Sending the order writes it straight to the kitchen display with the table, the items and the modifiers intact. Two separate apps, one shared order model — which is why a change on either side stays consistent.',
+              'Kitchen staff work a screen designed for a hot, loud room: large type, ticket age visible, one tap to advance a state.'],
+            hasList: true,
+            list: [
+              { k: 'Guest app', v: 'Table-bound QR menu with categories, photos and modifiers.' },
+              { k: 'Kitchen display', v: 'Live tickets with dispatch timers and state advance.' },
+              { k: 'Delivery', v: 'Register for off-premise orders alongside dine-in.' },
+              { k: 'Consistency', v: 'One order model shared by both applications.' }
+            ] },
+          { label: 'What it does now', title: 'Nobody retypes an order.',
+            paras: ['Waiters stop being couriers for information. Tickets are timestamped, so slow tickets are visible while there is still time to act on them. Menu changes are made once and appear on every table.'] }
+        ],
+        flow: [
+          { no: '01', step: 'Table QR scan', detail: 'Menu opens bound to the specific table.' },
+          { no: '02', step: 'Direct dispatch', detail: 'Order written straight to the kitchen, no retyping.' },
+          { no: '03', step: 'Kitchen KDS tracking', detail: 'Ticket age and state on a large-format screen.' },
+          { no: '04', step: 'Delivery register', detail: 'Off-premise orders handled in the same flow.' }
+        ]
+      }
+    ];
+  }
+
+  removals() {
+    return [
+      { no: '01', title: 'The spreadsheet that only one person understands', body: 'Every business we have worked with had a workbook holding the real state of things — bookings, stock, who owes what. It is fragile, it is one person\u2019s memory, and it does not survive that person taking a holiday.', replacedBy: 'A system of record with roles' },
+      { no: '02', title: 'Information retyped between people', body: 'An order told to a waiter and written on a pad. A membership renewal noted on paper then entered later. Each retype is a chance to lose data and an hour nobody bills for.', replacedBy: 'One entry, many surfaces' },
+      { no: '03', title: 'Decisions made on a monthly guess', body: 'Owners we build for could not answer simple questions — committed revenue this month, who lapsed, which service earns most — without an afternoon of adding up receipts.', replacedBy: 'Live operational dashboards' }
+    ];
+  }
+
+  method() {
+    return [
+      { no: '01', dur: 'Week 1', title: 'Workflow audit', body: 'We sit with the people doing the manual work and map every step, including the ones nobody documents.' },
+      { no: '02', dur: 'Week 1–2', title: 'Interface blueprint', body: 'Low-friction screens for staff and for customers, designed around the handful of actions each one repeats all day.' },
+      { no: '03', dur: 'Week 2–6', title: 'Full-stack build', body: 'Next.js 14 and TypeScript, with the integrations the operation needs: card collection, WhatsApp, POS hardware.' },
+      { no: '04', dur: 'Ongoing', title: 'Launch & run', body: 'Staff training on site, then hosting and support while the system is load-bearing for the business.' }
+    ];
+  }
+
+  go = (slug) => (e) => {
+    if (e) e.preventDefault();
+    this.setState({ view: 'case', slug });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  };
+
+  goHome = (e) => {
+    if (e) e.preventDefault();
+    this.setState({ view: 'home' });
+  };
+
+  renderVals() {
+    const items = this.data();
+    const accent = this.props.accent || '#C7371A';
+    const active = Math.min(this.state.active, items.length - 1);
+    const tick = items.map((p) => p.no + ' ' + p.name + ' — ' + p.sector).concat(['Workflow audits open for Q1']);
+    const tickerNode = tick.map((t, i) => React.createElement('span', { key: i, style: { display: 'flex', gap: '40px' } },
+      React.createElement('span', null, t),
+      React.createElement('span', { style: { color: accent } }, '◆')));
+
+    const idx = items.findIndex((p) => p.slug === this.state.slug);
+    const cur = items[idx < 0 ? 0 : idx];
+    const nxt = items[(idx + 1) % items.length];
+
+    const projects = items.map((p, i) => ({
+      ...p,
+      open: this.go(p.slug),
+      hover: () => this.setState({ active: i }),
+      previewStyle: {
+        position: 'absolute', inset: 0, width: '100%', height: '100%',
+        backgroundImage: 'url("' + p.shot + '")', backgroundSize: 'cover', backgroundPosition: 'top center', backgroundRepeat: 'no-repeat',
+        opacity: i === active ? 1 : 0,
+        transform: i === active ? 'scale(1)' : 'scale(1.04)',
+        transition: 'opacity 420ms cubic-bezier(.22,.61,.36,1), transform 700ms cubic-bezier(.22,.61,.36,1)'
+      }
+    }));
+
+    return {
+      isHome: this.state.view === 'home',
+      isCase: this.state.view === 'case',
+      projects,
+      removals: this.removals(),
+      method: this.method(),
+      activeName: items[active].name,
+      activeStack: items[active].stack,
+      tickerA: tickerNode,
+      tickerB: tickerNode,
+      p: cur,
+      caseName: cur ? cur.name : '',
+      caseShotStyle: {
+        marginTop: '40px', border: '1px solid #17150F', background: '#17150F',
+        backgroundImage: cur ? 'url("' + cur.shot + '")' : 'none',
+        backgroundSize: 'cover', backgroundPosition: 'top center', backgroundRepeat: 'no-repeat',
+        aspectRatio: '552 / 280'
+      },
+      nextName: nxt.name,
+      nextLine: nxt.oneLine,
+      openNext: this.go(nxt.slug),
+      goHome: this.goHome
+    };
+  }
+}
+
+</script>
+</body>
+</html>
