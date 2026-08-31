@@ -1,18 +1,17 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import { PROJECTS, LOAD_PROFILES, ProjectData } from '@/data/portfolioData';
 
 interface ProductionIndexProps {
   activeIdx: number;
   onHoverProject: (index: number) => void;
-  onSelectProject: (slug: string) => void;
 }
 
 export const ProductionIndex: React.FC<ProductionIndexProps> = ({
   activeIdx,
-  onHoverProject,
-  onSelectProject
+  onHoverProject
 }) => {
   const activeProject: ProjectData = PROJECTS[activeIdx] || PROJECTS[0];
   const activeLoad = LOAD_PROFILES[activeProject.slug] || [];
@@ -37,11 +36,11 @@ export const ProductionIndex: React.FC<ProductionIndexProps> = ({
           {PROJECTS.map((p, idx) => {
             const isActive = idx === activeIdx;
             return (
-              <div
+              <Link
                 key={p.slug}
+                href={`/projects/${p.slug}`}
                 data-reveal="1"
                 onMouseEnter={() => onHoverProject(idx)}
-                onClick={() => onSelectProject(p.slug)}
                 className="relative block py-[26px] px-1 border-b border-line cursor-pointer group select-none transition-colors"
               >
                 {/* Accent Wipe */}
@@ -88,7 +87,7 @@ export const ProductionIndex: React.FC<ProductionIndexProps> = ({
                     <span className="block mt-[5px] text-grey-400">{p.status}</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -34,7 +34,7 @@ export const HowABuildRuns: React.FC = () => {
               </span>
             </div>
 
-            <h3 className="my-[20px_10px] text-[19px] font-extrabold tracking-[-0.015em] text-ink">
+            <h3 className="mt-5 mb-[10px] text-[19px] font-extrabold tracking-[-0.015em] text-ink">
               {m.title}
             </h3>
             <p className="m-0 text-[15px] leading-[1.5] text-ink-muted">

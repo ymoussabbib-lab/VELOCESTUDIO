@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ onGoHome, onOpenConsult }) => {
           <a
             href="#index"
             onClick={(e) => handleNav(e, '#index')}
-            className="text-ink hover:text-accent transition-colors cursor-pointer"
+            className="text-ink hover:text-accent transition-colors cursor-pointer hidden sm:inline-block"
           >
             Systems
           </a>
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onGoHome, onOpenConsult }) => {
                 onGoHome('#contact');
               }
             }}
-            className="bg-ink text-paper px-4 py-[9px] pb-2 font-mono text-[11.5px] tracking-[0.06em] uppercase hover:bg-accent transition-colors cursor-pointer"
+            className="bg-ink text-paper px-4 py-[9px] pb-2 font-mono text-[11.5px] tracking-[0.06em] uppercase hover:bg-accent transition-colors cursor-pointer whitespace-nowrap"
           >
             Book an audit →
           </button>

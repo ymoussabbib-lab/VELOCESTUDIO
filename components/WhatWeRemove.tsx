@@ -28,7 +28,7 @@ export const WhatWeRemove: React.FC = () => {
             <div className="font-mono text-[11.5px] text-accent tracking-[0.08em]">
               {r.no}
             </div>
-            <h3 className="my-[18px_14px] text-[25px] font-extrabold tracking-[-0.02em] leading-[1.15] text-ink [text-wrap:balance]">
+            <h3 className="mt-[18px] mb-[14px] text-[25px] font-extrabold tracking-[-0.02em] leading-[1.15] text-ink [text-wrap:balance]">
               {r.title}
             </h3>
             <p className="m-0 mb-[22px] text-[15.5px] leading-[1.55] text-ink-muted">

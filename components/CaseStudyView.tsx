@@ -165,7 +165,7 @@ export const CaseStudyView: React.FC<CaseStudyViewProps> = ({
         {project.chapters.map((c, cIdx) => (
           <div
             key={cIdx}
-            className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16 border-t border-ink py-[34px_0_56px] items-start"
+            className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16 border-t border-ink pt-[34px] pb-[56px] items-start"
           >
             <div>
               <div className="font-mono text-[11.5px] tracking-[0.1em] uppercase text-grey-400">

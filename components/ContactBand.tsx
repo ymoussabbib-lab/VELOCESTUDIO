@@ -10,7 +10,7 @@ interface ContactBandProps {
 export const ContactBand: React.FC<ContactBandProps> = ({ onOpenConsult, onGoIndex }) => {
   return (
     <section id="contact" className="mt-[116px] bg-ink text-on-dark">
-      <div className="max-w-[1440px] mx-auto px-10 py-[96px_40px_88px] grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-16 items-end">
+      <div className="max-w-[1440px] mx-auto px-10 pt-24 pb-[88px] grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-16 items-end">
         <div>
           <h2 className="m-0 text-[clamp(38px,4.6vw,68px)] leading-[0.98] tracking-[-0.035em] font-black [text-wrap:balance]">
             Tell us the part of the day that always goes wrong.

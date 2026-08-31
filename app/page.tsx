@@ -9,13 +9,10 @@ import { ProductionIndex } from '@/components/ProductionIndex';
 import { WhatWeRemove } from '@/components/WhatWeRemove';
 import { HowABuildRuns } from '@/components/HowABuildRuns';
 import { ContactBand } from '@/components/ContactBand';
-import { CaseStudyView } from '@/components/CaseStudyView';
 import { ContactModal } from '@/components/ContactModal';
 import { Footer } from '@/components/Footer';
 
 export default function Home() {
-  const [view, setView] = useState<'home' | 'case'>('home');
-  const [slug, setSlug] = useState<string>('fitpulse');
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [isConsultOpen, setIsConsultOpen] = useState<boolean>(false);
 
@@ -70,49 +67,22 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (view === 'home') {
-      setupReveal();
-    }
+    setupReveal();
     return () => {
       observerRef.current?.disconnect();
       if (revealTimerRef.current) clearTimeout(revealTimerRef.current);
     };
-  }, [view, setupReveal]);
+  }, [setupReveal]);
 
-  // Navigate to Case View
-  const handleSelectProject = (projectSlug: string) => {
-    setSlug(projectSlug);
-    setView('case');
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  // Return to Homepage with optional anchor scrolling
+  // In-page anchor scrolling (header nav, contact band "Read a build in full")
   const handleGoHome = (hash?: string) => {
-    if (view === 'case') {
-      setView('home');
-      setTimeout(() => {
-        if (!hash || hash === '#top') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          const target = document.querySelector(hash);
-          if (target) {
-            const topOffset = target.getBoundingClientRect().top + window.scrollY - 84;
-            window.scrollTo({ top: topOffset, behavior: 'smooth' });
-          }
-        }
-        setupReveal();
-      }, 60);
+    if (!hash || hash === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      if (!hash || hash === '#top') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const target = document.querySelector(hash);
-        if (target) {
-          const topOffset = target.getBoundingClientRect().top + window.scrollY - 84;
-          window.scrollTo({ top: topOffset, behavior: 'smooth' });
-        }
+      const target = document.querySelector(hash);
+      if (target) {
+        const topOffset = target.getBoundingClientRect().top + window.scrollY - 84;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
       }
     }
   };
@@ -124,32 +94,21 @@ export default function Home() {
         onOpenConsult={() => setIsConsultOpen(true)}
       />
 
-      {view === 'home' ? (
-        <main>
-          <Hero />
-          <MarqueeTicker />
-          <ProductionDial />
-          <ProductionIndex
-            activeIdx={activeIdx}
-            onHoverProject={setActiveIdx}
-            onSelectProject={handleSelectProject}
-          />
-          <WhatWeRemove />
-          <HowABuildRuns />
-          <ContactBand
-            onOpenConsult={() => setIsConsultOpen(true)}
-            onGoIndex={() => handleGoHome('#index')}
-          />
-        </main>
-      ) : (
-        <main>
-          <CaseStudyView
-            slug={slug}
-            onGoHome={handleGoHome}
-            onSelectProject={handleSelectProject}
-          />
-        </main>
-      )}
+      <main>
+        <Hero />
+        <MarqueeTicker />
+        <ProductionDial />
+        <ProductionIndex
+          activeIdx={activeIdx}
+          onHoverProject={setActiveIdx}
+        />
+        <WhatWeRemove />
+        <HowABuildRuns />
+        <ContactBand
+          onOpenConsult={() => setIsConsultOpen(true)}
+          onGoIndex={() => handleGoHome('#index')}
+        />
+      </main>
 
       <Footer />
 
