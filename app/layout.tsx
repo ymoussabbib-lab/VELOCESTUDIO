@@ -17,8 +17,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Veloce Studio — Casablanca Software Engineering Studio',
-  description: 'Five businesses run their entire day on software we built. Bespoke operational systems, booking engines, POS, and access control.',
+  title: 'Veloce Studio - Business Software Systems for Local Businesses',
+  description: 'Custom business software for gyms, salons, restaurants, real-estate agencies and growing businesses in Sale, Rabat, Casablanca and beyond.',
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${archivo.variable} ${jetbrainsMono.variable} scroll-smooth`}>
-      <body className="bg-paper text-ink font-sans antialiased selection:bg-accent selection:text-paper min-h-screen">
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-accent selection:text-paper">
         {children}
       </body>
     </html>

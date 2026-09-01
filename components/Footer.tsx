@@ -1,14 +1,10 @@
-"use client";
-
-import React from 'react';
-
-export const Footer: React.FC = () => {
+export function Footer() {
   return (
-    <footer className="border-t border-line-dark bg-ink text-grey-400">
-      <div className="max-w-[1440px] mx-auto px-10 py-7 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[11.5px] tracking-[0.05em]">
-        <span>© 2026 Veloce Studio — Casablanca</span>
-        <span>Systems in production, not concepts</span>
+    <footer id="about" className="border-t border-line-dark bg-ink text-on-dark-muted">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-7 font-mono text-xs uppercase tracking-[0.12em] md:flex-row md:items-center md:justify-between md:px-8 lg:px-12">
+        <span>© 2026 Veloce Studio</span>
+        <span>Sale / Rabat / Casablanca / Morocco</span>
       </div>
     </footer>
   );
-};
+}

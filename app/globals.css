@@ -31,6 +31,15 @@ a:hover {
   color: #C7371A;
 }
 
+:focus-visible {
+  outline: 2px solid #C7371A;
+  outline-offset: 3px;
+}
+
+img {
+  max-width: 100%;
+}
+
 ::selection {
   background: #C7371A;
   color: #F2EFE8;
@@ -84,6 +93,13 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .animate-vs-slide {
     animation: none !important;
   }
