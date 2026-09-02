@@ -42,3 +42,7 @@ next-env.d.ts
 .cursor/
 .gemini/
 .impeccable/
+
+# Lead engine — prospect data never enters the repo
+/lead-engine/data/
+test-results/
