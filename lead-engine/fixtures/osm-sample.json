@@ -1,0 +1,12 @@
+{
+  "elements": [
+    { "type": "node", "id": 111, "lat": 34.0209, "lon": -6.8416,
+      "tags": { "name": "Salon Yasmine", "shop": "hairdresser", "phone": "06 12 34 56 78", "addr:city": "Rabat" } },
+    { "type": "node", "id": 222, "lat": 33.9716, "lon": -6.8498,
+      "tags": { "name": "Fitness Plus SARL", "leisure": "fitness_centre", "contact:phone": "+212522123456" } },
+    { "type": "node", "id": 333, "lat": 34.0100, "lon": -6.8300,
+      "tags": { "name": "Pharmacie Centrale", "amenity": "pharmacy", "phone": "0612345670" } },
+    { "type": "node", "id": 444, "lat": 34.0300, "lon": -6.8200,
+      "tags": { "shop": "beauty", "phone": "0612345671" } }
+  ]
+}
