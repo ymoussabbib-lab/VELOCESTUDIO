@@ -1,12 +1,15 @@
 import type { Business, FieldValue, Sighting } from '../sources/types';
 import { nameTokens } from '../normalise/name';
-import { findSharedContacts } from './shared';
+import type { ResolutionConfig } from '../config/schema';
+import { findSharedContacts, SHARED_CONTACT_THRESHOLD } from './shared';
 import { metresBetween, tokenSimilarity } from './similarity';
+import { buildConstraints, pairKey, type ConstraintConflict, type Verdict } from './verdicts';
 
-/** All three are provisional and get retuned against real ingested data. */
+/** All are provisional and get retuned against real ingested data. */
 export const MERGE_THRESHOLD = 0.85;
 export const AMBIGUITY_FLOOR = 0.55;
 export const PROXIMITY_METRES = 150;
+export const MIN_DISTINCTIVE_TOKENS = 2;
 
 /**
  * Bare category words used as OSM placeholder names for Moroccan businesses
@@ -14,6 +17,10 @@ export const PROXIMITY_METRES = 150;
  * "Boulangerie Patisserie"). A name match built only from these tokens
  * carries no real corroborating information. Provisional — retune against
  * real ingested data, same as the thresholds above.
+ *
+ * Locked, not part of ResolutionConfig: this is matching mechanism, not a
+ * tuning knob an operator drags a slider on. Decided explicitly with the
+ * user rather than defaulted — see the control-UI plan's ledger.
  */
 export const GENERIC_NAME_TOKENS = new Set([
   'cafe', 'snack', 'restaurant', 'salon', 'coiffure', 'pharmacie', 'gym',
@@ -31,7 +38,9 @@ export interface MergeCandidate {
 
 type Decision = 'merge' | 'ambiguous' | 'apart';
 
-function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; score: number; reason: string } {
+function decide(
+  a: Sighting, b: Sighting, shared: Set<string>, cfg: ResolutionConfig,
+): { d: Decision; score: number; reason: string } {
   const tokensA = new Set(nameTokens(a.extracted.name));
   const tokensB = new Set(nameTokens(b.extracted.name));
   const score = tokenSimilarity(tokensA, tokensB);
@@ -48,7 +57,7 @@ function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; s
     metresBetween(
       { lat: a.extracted.lat!, lon: a.extracted.lon! },
       { lat: b.extracted.lat!, lon: b.extracted.lon! },
-    ) <= PROXIMITY_METRES;
+    ) <= cfg.proximityMetres;
 
   // Franchise branches share a name and a switchboard number. A phone match
   // must not bridge two locations we know are far apart, or bridge a located
@@ -56,7 +65,7 @@ function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; s
   // union-find chain unrelated branches into one business. Only when NEITHER
   // side carries coordinates does a bare phone+name match still merge; that
   // coordinate-free case is the plan's original behaviour and is unchanged.
-  if (phoneMatch && score >= MERGE_THRESHOLD) {
+  if (phoneMatch && score >= cfg.mergeThreshold) {
     if (!eitherLocated || (bothLocated && near)) {
       return { d: 'merge', score, reason: 'exact phone and similar name' };
     }
@@ -66,17 +75,18 @@ function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; s
   // A name shared only by generic, low-information tokens (e.g. two
   // businesses both named "Cafe", or both named "Salon de Coiffure") carries
   // no real corroborating value however identical it scores — require at
-  // least two tokens on each side, AND at least one shared token that isn't a
-  // bare category word, before proximity alone can merge.
-  const distinctTokenFloor = Math.min(tokensA.size, tokensB.size) >= 2;
+  // least cfg.minDistinctiveTokens tokens on each side, AND at least one
+  // shared token that isn't a bare category word, before proximity alone can
+  // merge.
+  const distinctTokenFloor = Math.min(tokensA.size, tokensB.size) >= cfg.minDistinctiveTokens;
   const sharedDistinctiveToken =
     [...tokensA].some((t) => tokensB.has(t) && !GENERIC_NAME_TOKENS.has(t));
   const distinctive = distinctTokenFloor && sharedDistinctiveToken;
 
-  if (near && score >= MERGE_THRESHOLD && distinctive) {
+  if (near && score >= cfg.mergeThreshold && distinctive) {
     return { d: 'merge', score, reason: 'similar name within proximity radius' };
   }
-  if ((near || phoneMatch) && score >= AMBIGUITY_FLOOR) {
+  if ((near || phoneMatch) && score >= cfg.ambiguityFloor) {
     return { d: 'ambiguous', score, reason: 'similar name, insufficient corroboration' };
   }
   return { d: 'apart', score, reason: 'no corroboration' };
@@ -118,8 +128,19 @@ function assemble(group: Sighting[]): Business {
   };
 }
 
-export function resolve(sightings: Sighting[]): { businesses: Business[]; candidates: MergeCandidate[] } {
-  const shared = findSharedContacts(sightings);
+export function resolve(
+  sightings: Sighting[],
+  opts: { config?: ResolutionConfig; verdicts?: Verdict[] } = {},
+): { businesses: Business[]; candidates: MergeCandidate[]; conflicts: ConstraintConflict[] } {
+  const cfg: ResolutionConfig = opts.config ?? {
+    mergeThreshold: MERGE_THRESHOLD,
+    ambiguityFloor: AMBIGUITY_FLOOR,
+    proximityMetres: PROXIMITY_METRES,
+    sharedContactThreshold: SHARED_CONTACT_THRESHOLD,
+    minDistinctiveTokens: MIN_DISTINCTIVE_TOKENS,
+  };
+  const shared = findSharedContacts(sightings, cfg.sharedContactThreshold);
+
   const parent = new Map<string, string>();
   sightings.forEach((s) => parent.set(s.id, s.id));
   const find = (id: string): string => {
@@ -127,18 +148,57 @@ export function resolve(sightings: Sighting[]): { businesses: Business[]; candid
     while (parent.get(cur) !== cur) cur = parent.get(cur)!;
     return cur;
   };
-  const union = (a: string, b: string) => { parent.set(find(a), find(b)); };
+
+  const members = new Map<string, Set<string>>();
+  sightings.forEach((s) => members.set(s.id, new Set([s.id])));
+
+  const { forcedSame, forbidden, contradictions } = buildConstraints(opts.verdicts ?? []);
+  const conflicts: ConstraintConflict[] = [...contradictions];
+
+  function wouldViolate(rootA: string, rootB: string): [string, string] | null {
+    const a = members.get(rootA)!;
+    const b = members.get(rootB)!;
+    for (const x of a) for (const y of b) {
+      if (forbidden.has(pairKey(x, y))) return [x, y];
+    }
+    return null;
+  }
+
+  function tryUnion(idA: string, idB: string): boolean {
+    const rootA = find(idA);
+    const rootB = find(idB);
+    if (rootA === rootB) return true;
+    const violation = wouldViolate(rootA, rootB);
+    if (violation) {
+      conflicts.push({
+        aSightingId: violation[0],
+        bSightingId: violation[1],
+        reason: 'merge blocked by a "different" verdict',
+      });
+      return false;
+    }
+    const merged = new Set([...members.get(rootA)!, ...members.get(rootB)!]);
+    parent.set(rootA, rootB);
+    members.set(rootB, merged);
+    members.delete(rootA);
+    return true;
+  }
+
+  for (const [a, b] of forcedSame) tryUnion(a, b);
 
   const candidates: MergeCandidate[] = [];
+  const scoredMerges: { i: number; j: number; score: number }[] = [];
   for (let i = 0; i < sightings.length; i += 1) {
     for (let j = i + 1; j < sightings.length; j += 1) {
-      const { d, score, reason } = decide(sightings[i], sightings[j], shared);
-      if (d === 'merge') union(sightings[i].id, sightings[j].id);
+      const { d, score, reason } = decide(sightings[i], sightings[j], shared, cfg);
+      if (d === 'merge') scoredMerges.push({ i, j, score });
       else if (d === 'ambiguous') {
         candidates.push({ aSightingId: sightings[i].id, bSightingId: sightings[j].id, score, reason });
       }
     }
   }
+  scoredMerges.sort((x, y) => y.score - x.score);
+  for (const { i, j } of scoredMerges) tryUnion(sightings[i].id, sightings[j].id);
 
   const groups = new Map<string, Sighting[]>();
   for (const s of sightings) {
@@ -146,5 +206,5 @@ export function resolve(sightings: Sighting[]): { businesses: Business[]; candid
     if (!groups.has(root)) groups.set(root, []);
     groups.get(root)!.push(s);
   }
-  return { businesses: [...groups.values()].map(assemble), candidates };
+  return { businesses: [...groups.values()].map(assemble), candidates, conflicts };
 }
