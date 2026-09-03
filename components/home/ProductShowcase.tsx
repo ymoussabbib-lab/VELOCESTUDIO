@@ -1,6 +1,43 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import { PROJECTS } from '@/data/projects';
+import type { MarketingAsset } from '@/data/assetManifest';
+
+const FRAME_RATIO = 16 / 10;
+const PREVIEW_SIZES = '(min-width: 1024px) 29vw, (min-width: 640px) 44vw, 100vw';
+
+// Screenshots vary widely: manager shots are landscape (~1920x900) but client
+// shots are tall phone captures (up to 1920x3962). Both sit in a shared 16:10
+// frame so the two previews always match height and the row carries no dead
+// space. The image is `object-contain` scaled to fill that frame the way
+// `object-cover` would. `contain` fits by width when the image is wider than the
+// frame and by height when it is narrower, so the covering scale is whichever of
+// the two ratios exceeds 1 -- using width/height alone shrinks every tall shot.
+// Hovering returns it to scale 1, revealing the full uncropped shot without
+// changing the frame, so nothing on the page moves.
+function Preview({ asset, className = '' }: { asset: MarketingAsset; className?: string }) {
+  const ratio = asset.width / asset.height / FRAME_RATIO;
+  const coverScale = Math.max(ratio, 1 / ratio).toFixed(3);
+
+  return (
+    <div
+      data-preview
+      className={`group/preview relative aspect-[16/10] overflow-hidden border bg-paper transition-colors duration-200 ${className}`}
+      style={{ '--cover-scale': coverScale } as CSSProperties}
+    >
+      <Image
+        src={asset.src}
+        alt={asset.alt}
+        width={asset.width}
+        height={asset.height}
+        sizes={PREVIEW_SIZES}
+        loading="lazy"
+        className="h-full w-full origin-top scale-[var(--cover-scale)] object-contain object-top transition-transform duration-500 ease-out group-hover/preview:scale-100 motion-reduce:transition-none"
+      />
+    </div>
+  );
+}
 
 export function ProductShowcase() {
   return (
@@ -16,7 +53,7 @@ export function ProductShowcase() {
 
         <div className="mt-10 grid gap-8">
           {PROJECTS.map((project) => (
-            <article key={project.slug} className="grid gap-5 border border-ink bg-paper-alt p-4 md:p-6 lg:grid-cols-[0.8fr_1.2fr]">
+            <article key={project.slug} className="grid gap-5 border border-ink bg-paper-alt p-4 md:p-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-grey-600">{project.label}</p>
                 <h3 className="mt-3 text-4xl font-black uppercase leading-none md:text-6xl">{project.name}</h3>
@@ -31,13 +68,9 @@ export function ProductShowcase() {
                   See how it works &rarr;
                 </Link>
               </div>
-              <div className="grid gap-4 sm:grid-cols-[1.2fr_0.8fr]">
-                <div className="overflow-hidden border border-ink bg-white">
-                  <Image src={project.managerAssets[0].src} alt={project.managerAssets[0].alt} width={project.managerAssets[0].width} height={project.managerAssets[0].height} sizes="(min-width: 1024px) 42vw, 100vw" className="aspect-[16/10] w-full object-cover" loading="lazy" />
-                </div>
-                <div className="overflow-hidden border border-line bg-white">
-                  <Image src={project.clientAssets[0].src} alt={project.clientAssets[0].alt} width={project.clientAssets[0].width} height={project.clientAssets[0].height} sizes="(min-width: 1024px) 25vw, 100vw" className="aspect-[9/12] w-full object-cover object-top" loading="lazy" />
-                </div>
+              <div className="grid content-start gap-4 sm:grid-cols-2">
+                <Preview asset={project.managerAssets[0]} className="border-ink" />
+                <Preview asset={project.clientAssets[0]} className="border-line hover:border-ink" />
               </div>
             </article>
           ))}

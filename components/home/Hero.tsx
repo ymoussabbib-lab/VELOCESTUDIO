@@ -7,11 +7,11 @@ export function Hero() {
   const [fitpulse, estatepulse, salonflow] = PROJECTS;
 
   return (
-    <section className="px-4 pb-10 pt-28 md:px-8 lg:px-12" aria-labelledby="home-title">
-      <div className="mx-auto grid max-w-7xl gap-9 lg:min-h-[calc(100vh-64px)] lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+    <section className="px-4 pb-10 pt-24 md:px-8 lg:px-12 lg:pt-16" aria-labelledby="home-title">
+      <div className="mx-auto grid max-w-7xl gap-9 lg:min-h-[calc(100vh-64px)] lg:grid-cols-[1fr_1fr] lg:items-center">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-grey-600">Software systems / Automation / Business operations</p>
-          <h1 id="home-title" className="mt-5 text-[clamp(3rem,13vw,7.8rem)] font-black uppercase leading-[0.84]">
+          <h1 id="home-title" className="mt-5 text-balance text-[clamp(2.5rem,5vw,4.5rem)] font-black uppercase leading-[0.84] tracking-[-0.03em]">
             Your business runs on software.
             <span className="block">We build the parts you&apos;re still running by hand.</span>
           </h1>
