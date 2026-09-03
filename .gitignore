@@ -45,4 +45,7 @@ next-env.d.ts
 
 # Lead engine — prospect data never enters the repo
 /lead-engine/data/
+/lead-engine/.tmp/
+lead-engine/ui/node_modules/
+lead-engine/ui/dist/
 test-results/

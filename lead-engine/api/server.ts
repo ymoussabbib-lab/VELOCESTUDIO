@@ -35,9 +35,16 @@ export function createServer(deps: ServerDeps): http.Server {
       if (req.method === 'GET' && url === '/api/config') return send(res, 200, await deps.loadConfig());
       if (req.method === 'GET' && url === '/api/sources') {
         const config = await deps.loadConfig();
+        const sightings = await deps.loadSightings();
         return send(res, 200, Object.values(SOURCE_REGISTRY).map((entry) => ({
           id: entry.id, label: entry.label, role: entry.role, terms: entry.terms,
           roleEditable: false, enabled: config.sources[entry.id]?.enabled ?? false,
+          sightingCount: sightings.filter((sighting) => sighting.source === entry.id).length,
+          lastIngestAt: sightings
+            .filter((sighting) => sighting.source === entry.id)
+            .map((sighting) => sighting.fetchedAt)
+            .sort()
+            .at(-1) ?? null,
         })));
       }
       if (req.method === 'POST' && (url === '/api/calibrate' || url === '/api/config/promote')) {
