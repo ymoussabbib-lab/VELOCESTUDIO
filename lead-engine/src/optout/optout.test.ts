@@ -52,4 +52,14 @@ describe('opt-out suppression', () => {
     expect(isSuppressed(withEmail('e', 'contact@example.ma'), [emailOptOut])).toBe(true);
     expect(isSuppressed(withEmail('f', 'CONTACT@EXAMPLE.MA'), [emailOptOut])).toBe(true);
   });
+
+  it('suppresses a matching phone regardless of local vs E.164 format', () => {
+    // Re-review finding R-5: an opt-out recorded in local format ("0612345678")
+    // must still suppress the E.164-normalised sighting the adapter produces.
+    const localFormatOptOut: OptOut = {
+      id: 'o3', phones: ['0612345678'], emails: [],
+      createdAt: '2026-09-01T00:00:00.000Z',
+    };
+    expect(isSuppressed(s('g', 'Anything', ['+212612345678']), [localFormatOptOut])).toBe(true);
+  });
 });

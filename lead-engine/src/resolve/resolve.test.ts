@@ -143,3 +143,52 @@ describe('resolve — post-review fixes for demonstrated bad merges', () => {
     expect(aBusiness.sightingIds).toEqual(['a']);
   });
 });
+
+// Findings from the scoped re-review of the C-1/C-2/I-2 fix wave (2026-09-03):
+// the first fix closed the reviewer's original exhibits but left two real gaps.
+describe('resolve — second-round fixes (re-review findings R-1, R-2)', () => {
+  it('R-1: a coordinate-less sighting must not bridge two known-distant locations into one business', () => {
+    // 'way'/'relation' OSM elements carry no lat/lon today (I-4, deferred), so a
+    // phone+name match against a coordinate-less sighting is exactly as
+    // unverifiable as one against a sighting we know is far away — it must not
+    // merge either, or it silently re-opens the C-2 franchise-chain bug through
+    // the coordinate-less middle sighting.
+    const shared = '+212537000000';
+    const { businesses, candidates } = resolve([
+      s('rabat', 'Pizza Napoli', { phones: [shared], lat: 34.0200, lon: -6.8400 }),
+      s('nocoord', 'Pizza Napoli', { phones: [shared] }), // no lat/lon at all
+      s('casa', 'Pizza Napoli', { phones: [shared], lat: 33.5731, lon: -7.5898 }),
+    ]);
+    expect(businesses).toHaveLength(3);
+    expect(candidates.length).toBeGreaterThan(0);
+  });
+
+  it('R-2: compound generic category names still do not merge on proximity alone', () => {
+    const CASA = { lat: 33.5731, lon: -7.5898 };
+    const CASA_NEAR = { lat: 33.5736, lon: -7.5898 }; // 55m away
+    const pairs: [string, string][] = [
+      ['Café Restaurant', 'Cafe Restaurant'],
+      ['Salon de Coiffure', 'Salon De Coiffure'],
+      ['Boulangerie Patisserie', 'Boulangerie Pâtisserie'],
+      ['Taxi Service', 'Taxi Service'],
+    ];
+    for (const [nameA, nameB] of pairs) {
+      const { businesses } = resolve([
+        s('a', nameA, CASA),
+        s('b', nameB, CASA_NEAR),
+      ]);
+      expect(businesses, `expected "${nameA}" / "${nameB}" not to merge`).toHaveLength(2);
+    }
+  });
+
+  it('R-2: a genuinely distinctive shared token still allows a proximity merge', () => {
+    // Regression guard: the generic-token gate must not become so broad that it
+    // blocks the legitimate case Task 10 already requires (Cafe Atlas / Café
+    // Atlas SARL, proven distinctive by the shared "atlas" token).
+    const { businesses } = resolve([
+      s('a', 'Cafe Atlas', { lat: 34.0200, lon: -6.8400 }),
+      s('b', 'Café Atlas SARL', { lat: 34.0201, lon: -6.8400, source: 'telecontact' }),
+    ]);
+    expect(businesses).toHaveLength(1);
+  });
+});

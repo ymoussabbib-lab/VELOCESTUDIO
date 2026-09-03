@@ -1,12 +1,26 @@
 import type { Business, FieldValue, Sighting } from '../sources/types';
 import { nameTokens } from '../normalise/name';
 import { findSharedContacts } from './shared';
-import { metresBetween, nameSimilarity } from './similarity';
+import { metresBetween, tokenSimilarity } from './similarity';
 
 /** All three are provisional and get retuned against real ingested data. */
 export const MERGE_THRESHOLD = 0.85;
 export const AMBIGUITY_FLOOR = 0.55;
 export const PROXIMITY_METRES = 150;
+
+/**
+ * Bare category words used as OSM placeholder names for Moroccan businesses
+ * (a hair salon literally named "Salon de Coiffure", a bakery named
+ * "Boulangerie Patisserie"). A name match built only from these tokens
+ * carries no real corroborating information. Provisional — retune against
+ * real ingested data, same as the thresholds above.
+ */
+export const GENERIC_NAME_TOKENS = new Set([
+  'cafe', 'snack', 'restaurant', 'salon', 'coiffure', 'pharmacie', 'gym',
+  'pizzeria', 'patisserie', 'boulangerie', 'hotel', 'riad', 'epicerie',
+  'superette', 'taxi', 'service', 'garde', 'ecole', 'auto', 'centre',
+  'de', 'du', 'des', 'la', 'le', 'les', 'et',
+]);
 
 export interface MergeCandidate {
   aSightingId: string;
@@ -18,14 +32,17 @@ export interface MergeCandidate {
 type Decision = 'merge' | 'ambiguous' | 'apart';
 
 function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; score: number; reason: string } {
-  const score = nameSimilarity(a.extracted.name, b.extracted.name);
+  const tokensA = new Set(nameTokens(a.extracted.name));
+  const tokensB = new Set(nameTokens(b.extracted.name));
+  const score = tokenSimilarity(tokensA, tokensB);
 
   const phones = new Set(a.extracted.phones.filter((p) => !shared.has(p)));
   const phoneMatch = b.extracted.phones.some((p) => !shared.has(p) && phones.has(p));
 
-  const bothLocated =
-    a.extracted.lat !== undefined && a.extracted.lon !== undefined &&
-    b.extracted.lat !== undefined && b.extracted.lon !== undefined;
+  const aLocated = a.extracted.lat !== undefined && a.extracted.lon !== undefined;
+  const bLocated = b.extracted.lat !== undefined && b.extracted.lon !== undefined;
+  const bothLocated = aLocated && bLocated;
+  const eitherLocated = aLocated || bLocated;
   const near =
     bothLocated &&
     metresBetween(
@@ -33,23 +50,28 @@ function decide(a: Sighting, b: Sighting, shared: Set<string>): { d: Decision; s
       { lat: b.extracted.lat!, lon: b.extracted.lon! },
     ) <= PROXIMITY_METRES;
 
-  // Franchise branches share a name and a switchboard number; a distance bound
-  // stops a shared phone from merging two locations we know are far apart.
-  // When neither side has coordinates, we can't apply that check, so a bare
-  // phone+name match still merges — this is the plan's original behaviour.
+  // Franchise branches share a name and a switchboard number. A phone match
+  // must not bridge two locations we know are far apart, or bridge a located
+  // sighting to one whose location we simply don't have — either lets
+  // union-find chain unrelated branches into one business. Only when NEITHER
+  // side carries coordinates does a bare phone+name match still merge; that
+  // coordinate-free case is the plan's original behaviour and is unchanged.
   if (phoneMatch && score >= MERGE_THRESHOLD) {
-    if (!bothLocated || near) {
+    if (!eitherLocated || (bothLocated && near)) {
       return { d: 'merge', score, reason: 'exact phone and similar name' };
     }
-    return { d: 'ambiguous', score, reason: 'phone and name match, but known locations are far apart' };
+    return { d: 'ambiguous', score, reason: 'phone and name match, but locations are not confirmed close' };
   }
 
-  // A name shared by generic, low-information tokens (e.g. two businesses both
-  // named "Cafe") carries no real corroborating value, however identical it
-  // scores — require at least two tokens on each side before proximity alone
-  // can merge.
-  const distinctive =
-    Math.min(nameTokens(a.extracted.name).length, nameTokens(b.extracted.name).length) >= 2;
+  // A name shared only by generic, low-information tokens (e.g. two
+  // businesses both named "Cafe", or both named "Salon de Coiffure") carries
+  // no real corroborating value however identical it scores — require at
+  // least two tokens on each side, AND at least one shared token that isn't a
+  // bare category word, before proximity alone can merge.
+  const distinctTokenFloor = Math.min(tokensA.size, tokensB.size) >= 2;
+  const sharedDistinctiveToken =
+    [...tokensA].some((t) => tokensB.has(t) && !GENERIC_NAME_TOKENS.has(t));
+  const distinctive = distinctTokenFloor && sharedDistinctiveToken;
 
   if (near && score >= MERGE_THRESHOLD && distinctive) {
     return { d: 'merge', score, reason: 'similar name within proximity radius' };

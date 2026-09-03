@@ -1,12 +1,15 @@
 import { nameTokens } from '../normalise/name';
 
-export function nameSimilarity(a: string, b: string): number {
-  const ta = new Set(nameTokens(a));
-  const tb = new Set(nameTokens(b));
+/** Dice coefficient over two already-tokenised name sets. */
+export function tokenSimilarity(ta: Set<string>, tb: Set<string>): number {
   if (ta.size === 0 || tb.size === 0) return 0;
   let shared = 0;
   for (const t of ta) if (tb.has(t)) shared += 1;
   return (2 * shared) / (ta.size + tb.size);
+}
+
+export function nameSimilarity(a: string, b: string): number {
+  return tokenSimilarity(new Set(nameTokens(a)), new Set(nameTokens(b)));
 }
 
 const EARTH_RADIUS_M = 6_371_000;
