@@ -101,3 +101,45 @@ describe('resolve — ambiguity and provenance', () => {
     expect(businesses[0].sightingIds).toEqual(['a']);
   });
 });
+
+// Findings from the final whole-branch review (2026-09-02): both were demonstrated
+// by execution against real Moroccan OSM-shaped data, not hypothesised.
+describe('resolve — post-review fixes for demonstrated bad merges', () => {
+  it('C-1: does not merge two low-information same-name sightings on proximity alone', () => {
+    // Two unrelated cafés both literally named "Cafe", 55m apart in Casablanca.
+    const { businesses, candidates } = resolve([
+      s('a', 'Café', { lat: 33.5731, lon: -7.5898 }),
+      s('b', 'Cafe', { lat: 33.5736, lon: -7.5898 }),
+    ]);
+    expect(businesses).toHaveLength(2);
+    expect(candidates).toHaveLength(1);
+  });
+
+  it('C-2: does not merge a shared-phone match across distant, known locations', () => {
+    // Same name, same phone, but 90km apart (Rabat vs Casablanca) — a franchise
+    // switchboard, not one business. Distance is known on both sides, so it must
+    // be checked rather than merging on phone+name alone.
+    const { businesses, candidates } = resolve([
+      s('a', 'Cafe Atlas', { phones: ['+212537000000'], lat: 34.0200, lon: -6.8400 }),
+      s('b', 'Cafe Atlas', { phones: ['+212537000000'], lat: 33.5731, lon: -7.5898 }),
+    ]);
+    expect(businesses).toHaveLength(2);
+    expect(candidates).toHaveLength(1);
+  });
+
+  it('C-2 chain: a distant phone match does not transitively drag in a nearby third sighting', () => {
+    // a-b share a phone but are 90km apart (must not merge, per the case above).
+    // b-c are close and share a name (must merge). a and c share no key and sit
+    // 90km apart. Before the fix, union-find chained a-b-c into one cluster.
+    const { businesses } = resolve([
+      s('a', 'Cafe Atlas', { phones: ['+212537000000'], lat: 34.0200, lon: -6.8400 }),
+      s('b', 'Cafe Atlas', { phones: ['+212537000000'], lat: 33.5731, lon: -7.5898 }),
+      s('c', 'Cafe Atlas', { lat: 33.5736, lon: -7.5898 }),
+    ]);
+    expect(businesses).toHaveLength(2);
+    const groupSizes = businesses.map((biz) => biz.sightingIds.length).sort();
+    expect(groupSizes).toEqual([1, 2]);
+    const aBusiness = businesses.find((biz) => biz.sightingIds.includes('a'))!;
+    expect(aBusiness.sightingIds).toEqual(['a']);
+  });
+});
