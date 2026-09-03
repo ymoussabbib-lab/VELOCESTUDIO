@@ -39,4 +39,17 @@ describe('opt-out suppression', () => {
     const list = [s('a', 'Salon Yasmine', ['+212611111111'])];
     expect(suppress(list, [])).toHaveLength(1);
   });
+
+  it('suppresses a matching email regardless of letter case', () => {
+    const emailOptOut: OptOut = {
+      id: 'o2', phones: [], emails: ['Contact@Example.MA'],
+      createdAt: '2026-09-01T00:00:00.000Z',
+    };
+    function withEmail(id: string, email: string): Sighting {
+      return { id, source: 'openstreetmap', sourceId: id, fetchedAt: '2026-09-02T00:00:00.000Z',
+        raw: {}, extracted: { name: 'Anything', phones: [], emails: [email] } };
+    }
+    expect(isSuppressed(withEmail('e', 'contact@example.ma'), [emailOptOut])).toBe(true);
+    expect(isSuppressed(withEmail('f', 'CONTACT@EXAMPLE.MA'), [emailOptOut])).toBe(true);
+  });
 });

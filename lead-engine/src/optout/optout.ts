@@ -1,4 +1,5 @@
 import type { Sighting } from '../sources/types';
+import { normaliseEmail } from '../normalise/email';
 import { normaliseName } from '../normalise/name';
 
 export interface OptOut {
@@ -10,7 +11,7 @@ export interface OptOut {
 }
 
 export function optOutKeys(o: OptOut): Set<string> {
-  const keys = new Set<string>([...o.phones, ...o.emails]);
+  const keys = new Set<string>([...o.phones, ...o.emails.map(normaliseEmail)]);
   if (o.nameKey) keys.add(`name:${o.nameKey}`);
   return keys;
 }
@@ -18,7 +19,7 @@ export function optOutKeys(o: OptOut): Set<string> {
 export function isSuppressed(s: Sighting, optOuts: OptOut[]): boolean {
   const mine = new Set<string>([
     ...s.extracted.phones,
-    ...s.extracted.emails,
+    ...s.extracted.emails.map(normaliseEmail),
     `name:${normaliseName(s.extracted.name)}`,
   ]);
   return optOuts.some((o) => {

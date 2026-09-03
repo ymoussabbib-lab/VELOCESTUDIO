@@ -1,4 +1,5 @@
 import type { Sighting } from '../sources/types';
+import { normaliseEmail } from '../normalise/email';
 import { normaliseName } from '../normalise/name';
 
 /** Provisional. Retune once real Moroccan data has been ingested. */
@@ -11,7 +12,8 @@ export function findSharedContacts(
   const names = new Map<string, Set<string>>();
   for (const s of sightings) {
     const key = normaliseName(s.extracted.name);
-    for (const contact of [...s.extracted.phones, ...s.extracted.emails]) {
+    const contacts = [...s.extracted.phones, ...s.extracted.emails.map(normaliseEmail)];
+    for (const contact of contacts) {
       if (!names.has(contact)) names.set(contact, new Set());
       names.get(contact)!.add(key);
     }

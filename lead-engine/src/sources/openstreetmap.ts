@@ -1,5 +1,6 @@
 import type { Sighting, SourceAdapter } from './types';
 import { verticalFromOsmTags } from '../normalise/category';
+import { normaliseEmail } from '../normalise/email';
 import { normalisePhone } from '../normalise/phone';
 
 interface OsmElement {
@@ -24,7 +25,9 @@ export const openStreetMapAdapter: SourceAdapter = {
       const phones = [tags.phone, tags['contact:phone']]
         .map((p) => (p ? normalisePhone(p) : null))
         .filter((p): p is string => p !== null);
-      const emails = [tags.email, tags['contact:email']].filter((e): e is string => Boolean(e));
+      const emails = [tags.email, tags['contact:email']]
+        .filter((e): e is string => Boolean(e))
+        .map(normaliseEmail);
       out.push({
         id: `openstreetmap:${sourceId}:${fetchedAt}`,
         source: 'openstreetmap',

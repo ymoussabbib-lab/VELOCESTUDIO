@@ -33,6 +33,16 @@ describe('findSharedContacts', () => {
     expect(findSharedContacts(list, 2).has('+212633333333')).toBe(true);
   });
 
+  it('flags a shared email regardless of letter case', () => {
+    const list = [
+      s('0', 'A', [], ['Contact@Example.MA']),
+      s('1', 'B', [], ['contact@example.ma']),
+      s('2', 'C', [], ['CONTACT@EXAMPLE.MA']),
+      s('3', 'D', [], ['contact@Example.ma']),
+    ];
+    expect(findSharedContacts(list).has('contact@example.ma')).toBe(true);
+  });
+
   it('exports a documented default threshold', () => {
     expect(SHARED_CONTACT_THRESHOLD).toBeGreaterThan(1);
   });
