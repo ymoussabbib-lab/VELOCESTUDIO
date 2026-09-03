@@ -73,3 +73,12 @@ describe('resolve with config', () => {
     expect(conflicts).toEqual([]);
   });
 });
+
+describe('resolve with malformed verdicts', () => {
+  it('does not crash on a verdict referencing a sighting outside the input set', () => {
+    expect(() => resolve(
+      [s('a', 'Salon Yasmine'), s('b', 'Salon Yasmine')],
+      { verdicts: [v('a', 'ghost', 'same')] },
+    )).not.toThrow();
+  });
+});

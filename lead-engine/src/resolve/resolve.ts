@@ -165,6 +165,7 @@ export function resolve(
   }
 
   function tryUnion(idA: string, idB: string): boolean {
+    if (!parent.has(idA) || !parent.has(idB)) return false;
     const rootA = find(idA);
     const rootB = find(idB);
     if (rootA === rootB) return true;

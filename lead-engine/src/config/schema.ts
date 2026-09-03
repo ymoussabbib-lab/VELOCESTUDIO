@@ -51,6 +51,7 @@ export function validateTuning(input: unknown): TuningConfig {
   }
   if (r.ambiguityFloor >= r.mergeThreshold) fail('ambiguityFloor must be below mergeThreshold');
   if (typeof r.proximityMetres !== 'number' || r.proximityMetres <= 0) fail('proximityMetres must be positive');
+  if (r.proximityMetres > 2000) fail('proximityMetres must be at most 2000 metres');
   if (typeof r.sharedContactThreshold !== 'number' || r.sharedContactThreshold <= 0) {
     fail('sharedContactThreshold must be positive');
   }

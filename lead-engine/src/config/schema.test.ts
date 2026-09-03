@@ -56,4 +56,10 @@ describe('validateTuning', () => {
     c.resolution.minDistinctiveTokens = 0;
     expect(() => validateTuning(c)).toThrow(/minDistinctiveTokens must be a positive integer/);
   });
+
+  it('rejects a proximity radius above the safety cap', () => {
+    const c = valid();
+    c.resolution.proximityMetres = 5000;
+    expect(() => validateTuning(c)).toThrow(/proximityMetres must be at most 2000 metres/);
+  });
 });
