@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "resolution": {
+    "mergeThreshold": 0.85,
+    "ambiguityFloor": 0.55,
+    "proximityMetres": 150,
+    "sharedContactThreshold": 3,
+    "minDistinctiveTokens": 2
+  },
+  "sources": {
+    "openstreetmap": {
+      "enabled": true
+    },
+    "telecontact": {
+      "enabled": false
+    },
+    "pj": {
+      "enabled": false
+    },
+    "glovo": {
+      "enabled": false
+    },
+    "kaalix": {
+      "enabled": false
+    },
+    "instagram": {
+      "enabled": false
+    },
+    "facebook": {
+      "enabled": false
+    }
+  }
+}
