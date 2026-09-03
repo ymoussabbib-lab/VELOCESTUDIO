@@ -23,8 +23,9 @@ export function scoreConfig(
   const missedMerges: LabelledPair[] = [];
   const stillAmbiguous: LabelledPair[] = [];
 
-  for (const verdict of verdicts) {
-    const others = verdicts.filter((x) => x.id !== verdict.id);
+  for (let idx = 0; idx < verdicts.length; idx += 1) {
+    const verdict = verdicts[idx];
+    const others = verdicts.filter((_, i) => i !== idx);
     const { businesses, candidates } = resolve(sightings, { config, verdicts: others });
     const cluster = businesses.find((bz) => bz.sightingIds.includes(verdict.aSightingId));
     const together = cluster?.sightingIds.includes(verdict.bSightingId) ?? false;

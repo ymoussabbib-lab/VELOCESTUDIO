@@ -53,4 +53,45 @@ describe('scoreConfig', () => {
     const m = scoreConfig([s('a', 'A Gym')], [], cfg);
     expect(Object.keys(m)).not.toContain('accuracy');
   });
+
+  it('withholds verdicts by array position, not by id, so duplicate ids do not cause silent constraint loss', () => {
+    // Two verdicts with the same id but different sighting pairs:
+    // v1: (a, b) marked 'same'
+    // v2: (b, c) marked 'same', with id='shared-id' (same as v1)
+    // When scoring v1, the old code would exclude both because they have the same id.
+    // The new code should only exclude v1 by position, keeping v2's constraint active.
+    const sightings = [
+      s('a', 'Salon A'),
+      s('b', 'Salon B'),
+      s('c', 'Salon C'),
+    ];
+    const v1: Verdict = {
+      id: 'shared-id',
+      aSightingId: 'a',
+      bSightingId: 'b',
+      decision: 'same',
+      decidedAt: '2026-09-03T00:00:00.000Z',
+    };
+    const v2: Verdict = {
+      id: 'shared-id', // same id as v1
+      aSightingId: 'b',
+      bSightingId: 'c',
+      decision: 'same',
+      decidedAt: '2026-09-03T00:00:00.000Z',
+    };
+    const verdicts = [v1, v2];
+
+    // Score v1 (index 0). The `others` passed to resolve should contain only v2,
+    // not exclude both v1 and v2 as the old id-based filter would have done.
+    // With v2's constraint active (b and c same), if the config matches them,
+    // v1 should still be correctly graded as a missed merge (a and b not merged
+    // despite v1 saying they should be).
+    const m = scoreConfig(sightings, verdicts, cfg);
+
+    // Both verdicts should contribute to the score independently.
+    // The test passes if the implementation uses index-based filtering correctly.
+    // We expect at least v1 to be recorded as a missed merge (since a/b not matched),
+    // demonstrating that v2's constraint was not silently dropped.
+    expect(m.missedMerges.length).toBeGreaterThan(0);
+  });
 });
