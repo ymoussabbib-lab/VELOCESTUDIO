@@ -28,4 +28,24 @@ describe('diffResolutions', () => {
     expect(d.split).toEqual([]);
     expect(d.unchanged).toBe(1);
   });
+
+  it('does not report a false merge when a split leaves a multi-member remainder', () => {
+    const d = diffResolutions(
+      [bz('x', ['a', 'b', 'c', 'd'])],
+      [bz('a', ['a', 'b']), bz('c', ['c']), bz('d', ['d'])],
+    );
+    expect(d.merged).toEqual([]);
+    expect(d.split).toHaveLength(1);
+    expect(d.split[0].sightingIds).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('does not report false splits when two multi-member groups merge', () => {
+    const d = diffResolutions(
+      [bz('a', ['a', 'b']), bz('c', ['c', 'd'])],
+      [bz('a', ['a', 'b', 'c', 'd'])],
+    );
+    expect(d.split).toEqual([]);
+    expect(d.merged).toHaveLength(1);
+    expect(d.merged[0].sightingIds).toEqual(['a', 'b', 'c', 'd']);
+  });
 });
