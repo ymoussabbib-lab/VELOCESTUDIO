@@ -3,8 +3,8 @@ import { validateTuning, type TuningConfig } from './schema';
 
 export async function loadTuning(file: string): Promise<TuningConfig> {
   const raw = await readFile(file, 'utf8');
-  const parsed = JSON.parse(raw) as unknown;
   try {
+    const parsed = JSON.parse(raw) as unknown;
     return validateTuning(parsed);
   } catch (err) {
     throw new Error(`${(err as Error).message} (in ${file})`);

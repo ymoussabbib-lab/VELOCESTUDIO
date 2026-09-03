@@ -26,7 +26,7 @@ describe('tuning config file', () => {
   it('fails loudly on malformed JSON', async () => {
     const f = path.join(dir, 'tuning.json');
     writeFileSync(f, '{ not json');
-    await expect(loadTuning(f)).rejects.toThrow();
+    await expect(loadTuning(f)).rejects.toThrow(/tuning\.json/);
   });
 
   it('round-trips a written config', async () => {
