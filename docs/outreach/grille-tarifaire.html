@@ -1,0 +1,1133 @@
+<title>Grille Tarifaire Veloce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root {
+    --paper:      #F2EFE8;
+    --paper-alt:  #EAE6DC;
+    --track:      #E3DFD4;
+    --ink:        #17150F;
+    --ink-soft:   #2A2620;
+    --ink-muted:  #3B372E;
+    --grey-600:   #5A554A;
+    --grey-400:   #8A857A;
+    --line:       #D6D1C5;
+    --line-alt:   #C9C4B7;
+    --accent:     #C7371A;
+    --band:       #17150F;
+    --on-band:    #F2EFE8;
+    --on-band-mut:#A8A29A;
+    --band-line:  #4A453C;
+    --sys-fit:    #0F7B5A;
+    --sys-estate: #1B4DE4;
+    --sys-salon:  #A31C4B;
+    --sys-resto:  #C7371A;
+
+    --sans: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #17150F;
+      --paper-alt:  #1E1B15;
+      --track:      #262219;
+      --ink:        #F2EFE8;
+      --ink-soft:   #E4E0D6;
+      --ink-muted:  #C6C1B4;
+      --grey-600:   #A8A29A;
+      --grey-400:   #8A857A;
+      --line:       #3A362E;
+      --line-alt:   #4A453C;
+      --accent:     #E4744F;
+      --band:       #0C0B08;
+      --on-band:    #F2EFE8;
+      --on-band-mut:#A8A29A;
+      --band-line:  #3A362E;
+      --sys-fit:    #2FA57E;
+      --sys-estate: #6C8CF5;
+      --sys-salon:  #E0518A;
+      --sys-resto:  #E4744F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #17150F;
+    --paper-alt:  #1E1B15;
+    --track:      #262219;
+    --ink:        #F2EFE8;
+    --ink-soft:   #E4E0D6;
+    --ink-muted:  #C6C1B4;
+    --grey-600:   #A8A29A;
+    --grey-400:   #8A857A;
+    --line:       #3A362E;
+    --line-alt:   #4A453C;
+    --accent:     #E4744F;
+    --band:       #0C0B08;
+    --on-band:    #F2EFE8;
+    --on-band-mut:#A8A29A;
+    --band-line:  #3A362E;
+    --sys-fit:    #2FA57E;
+    --sys-estate: #6C8CF5;
+    --sys-salon:  #E0518A;
+    --sys-resto:  #E4744F;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px 0;
+  }
+
+  /* ---------- shared type ---------- */
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+  }
+
+  h2.section-title {
+    font-size: 27px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    border-top: 1px solid var(--ink);
+    padding-top: 14px;
+    margin-bottom: 30px;
+  }
+
+  .section-head .lede {
+    font-size: 16px;
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  section { margin-top: 76px; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    background: var(--band);
+    color: var(--on-band);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .masthead-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 22px 28px 30px;
+  }
+
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--band-line);
+    padding-bottom: 16px;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--on-band);
+  }
+
+  .masthead-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-band-mut);
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .masthead h1 {
+    font-size: 46px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+    margin: 26px 0 0;
+    max-width: 20ch;
+  }
+
+  .masthead .tagline {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 16px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex: none;
+    animation: blink 2.4s steps(1) infinite;
+  }
+  @keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.25; } }
+
+  /* ---------- intro ---------- */
+
+  .intro {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 46px;
+    margin-top: 46px;
+    align-items: start;
+  }
+
+  .intro p.lead {
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 46ch;
+  }
+
+  .intro p.lead strong { font-weight: 600; color: var(--ink); }
+
+  .note {
+    border-left: 2px solid var(--accent);
+    padding: 2px 0 2px 16px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .note b {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---------- packages ---------- */
+
+  .packs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 2px solid var(--ink);
+  }
+
+  .pack {
+    border-right: 1px solid var(--line-alt);
+    padding: 20px 26px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .pack:first-child { padding-left: 0; }
+  .pack:last-child { border-right: 0; padding-right: 0; }
+
+  .pack-code {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+  }
+
+  .flag {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .pack h3 {
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+  .price .amount {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .price .cur {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--grey-600);
+  }
+  .price .from {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+    align-self: center;
+    margin-right: 2px;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: var(--grey-600);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 7px;
+    margin-top: -6px;
+  }
+  .spec-row span:last-child { color: var(--ink); font-weight: 500; }
+
+  .pack .who {
+    font-size: 14.5px;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+  .pack .who b { color: var(--ink); font-weight: 600; }
+
+  .pain {
+    background: var(--paper-alt);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .pain .quote {
+    font-size: 16px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .pain p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  .pack ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pack ul li {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    padding-left: 18px;
+    position: relative;
+  }
+  .pack ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px;
+    width: 7px; height: 1px;
+    background: var(--ink);
+  }
+  .pack ul li.inherit {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+    padding-left: 0;
+  }
+  .pack ul li.inherit::before { display: none; }
+
+  .gain {
+    border-top: 1px solid var(--ink);
+    padding-top: 14px;
+    margin-top: auto;
+  }
+  .gain .label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+    display: block;
+    margin-bottom: 7px;
+  }
+  .gain p {
+    font-size: 15.5px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- matrix ---------- */
+
+  .matrix-wrap { overflow-x: auto; }
+
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 660px;
+  }
+  table.matrix th, table.matrix td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  table.matrix thead th {
+    border-bottom: 1px solid var(--ink);
+    border-top: 2px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    vertical-align: bottom;
+    padding-bottom: 12px;
+  }
+  table.matrix thead th:first-child { color: var(--grey-600); }
+  table.matrix th:not(:first-child),
+  table.matrix td:not(:first-child) {
+    text-align: center;
+    width: 15%;
+  }
+  table.matrix tbody th {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  table.matrix td {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  table.matrix td.no { color: var(--grey-400); }
+  .mark {
+    display: inline-block;
+    width: 9px; height: 9px;
+    background: var(--ink);
+  }
+  tr.group-head th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+    padding-top: 22px;
+    border-bottom: 1px solid var(--line-alt);
+  }
+  tr.total th, tr.total td {
+    border-bottom: 0;
+    border-top: 1px solid var(--ink);
+    padding-top: 13px;
+    font-weight: 600;
+  }
+  tr.total td { color: var(--ink); }
+
+  /* ---------- demos ---------- */
+
+  .demo {
+    display: grid;
+    grid-template-columns: 34px 1fr 1.25fr auto;
+    gap: 22px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+  }
+  .demo:first-of-type { border-top: 1px solid var(--ink); }
+
+  .demo .swatch {
+    width: 26px; height: 8px;
+    align-self: center;
+    flex: none;
+  }
+  .demo .name {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .demo .name span {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+  }
+  .demo .pitch {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.45;
+  }
+  .demo .pitch b { color: var(--ink); font-weight: 600; }
+  .demo .url {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: var(--grey-600);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line-alt);
+    padding-bottom: 2px;
+  }
+  .demo:hover .url { color: var(--accent); border-color: var(--accent); }
+  .demo:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  /* ---------- process ---------- */
+
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .step {
+    border-top: 2px solid var(--ink);
+    padding: 15px 22px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .step + .step { padding-left: 22px; border-left: 1px solid var(--line-alt); }
+  .step .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .step h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .step .when {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-600);
+  }
+  .step p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  /* ---------- faq ---------- */
+
+  .faq {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 46px;
+  }
+  .qa {
+    border-top: 1px solid var(--line);
+    padding: 18px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .qa h3 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .qa p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    margin: 0;
+    max-width: 54ch;
+  }
+
+  /* ---------- cta ---------- */
+
+  .cta {
+    background: var(--band);
+    color: var(--on-band);
+    margin-top: 90px;
+    border-top: 1px solid var(--ink);
+  }
+  .cta-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 46px 28px 40px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 46px;
+    align-items: start;
+  }
+  .cta h2 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .cta p {
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: var(--on-band-mut);
+    margin: 0;
+    max-width: 48ch;
+  }
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .contact-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--band-line);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--on-band);
+    text-decoration: none;
+  }
+  .contact-row:first-child { border-top: 1px solid var(--band-line); }
+  .contact-row .k {
+    color: var(--on-band-mut);
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 10.5px;
+    align-self: center;
+  }
+  a.contact-row:hover .v { color: var(--accent); }
+
+  .fineprint {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px 34px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    color: var(--on-band-mut);
+    background: var(--band);
+  }
+  .fineprint span { display: block; }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 900px) {
+    .intro, .cta-inner { grid-template-columns: 1fr; gap: 28px; }
+    .packs { grid-template-columns: 1fr; border-top: 0; }
+    .pack {
+      border-right: 0;
+      border-top: 2px solid var(--ink);
+      padding: 20px 0 34px;
+    }
+    .process { grid-template-columns: 1fr; }
+    .step { padding: 15px 0 24px; }
+    .step + .step { padding-left: 0; border-left: 0; }
+    .faq { grid-template-columns: 1fr; }
+    .demo {
+      grid-template-columns: 26px 1fr;
+      gap: 8px 16px;
+      align-items: start;
+    }
+    .demo .pitch, .demo .url { grid-column: 2; }
+    .masthead h1 { font-size: 34px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- print (A4) ---------- */
+
+  @media print {
+    @page { size: A4; margin: 12mm 11mm; }
+    :root {
+      --paper: #FFFFFF; --paper-alt: #F2EFE8; --ink: #17150F;
+      --ink-soft: #2A2620; --ink-muted: #3B372E; --grey-600: #5A554A;
+      --grey-400: #8A857A; --line: #C9C4B7; --line-alt: #C9C4B7;
+      --accent: #C7371A; --band: #17150F; --on-band: #FFFFFF;
+      --on-band-mut: #C9C4B7; --band-line: #4A453C;
+    }
+    body { font-size: 10.5pt; }
+    .sheet, .masthead-inner, .cta-inner, .fineprint { padding-left: 0; padding-right: 0; max-width: none; }
+    .masthead, .cta, .fineprint { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .masthead h1 { font-size: 26pt; }
+    section { margin-top: 26pt; break-inside: avoid; }
+    .packs { break-inside: avoid; }
+    .pack { break-inside: avoid; padding: 12px 14px 16px; }
+    .demo, .qa, .step, tr { break-inside: avoid; }
+    .cta { margin-top: 26pt; break-inside: avoid; }
+    .price .amount { font-size: 22pt; }
+    .dot { animation: none; }
+    .print-only { display: block !important; }
+  }
+  .print-only { display: none; }
+</style>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-top">
+      <div class="wordmark">Veloce Studio</div>
+      <div class="masthead-meta">
+        <span>Grille tarifaire</span>
+        <span>Édition 2026</span>
+        <span>Casablanca · Rabat · Salé</span>
+      </div>
+    </div>
+    <h1>Trois façons d'arrêter de gérer votre entreprise à la main.</h1>
+    <p class="tagline"><span class="dot" aria-hidden="true"></span> Des systèmes en production, pas des maquettes</p>
+  </div>
+</header>
+
+<div class="sheet">
+
+  <div class="intro">
+    <p class="lead">
+      Vous ne manquez pas de travail. Vous perdez du temps à le suivre&nbsp;: retrouver un dossier,
+      rappeler un client pour la troisième fois, recompter les chiffres du mois.
+      Nous construisons le système qui fait ce suivi à votre place — <strong>conçu sur votre
+      façon de travailler, pas sur celle d'un logiciel standard</strong>.
+    </p>
+    <div class="note">
+      <b>Les tarifs ci-dessous sont fermes pour les périmètres décrits</b>
+      <span>
+        Chaque projet commence par un audit gratuit de votre fonctionnement — une séance, sur place
+        ou à distance, sans engagement. C'est cet audit qui confirme le pack adapté et le prix final.
+        Vous en repartez avec la liste de vos points de friction, que vous travailliez avec nous ou non.
+      </span>
+    </div>
+  </div>
+
+  <!-- ============ PACKAGES ============ -->
+  <section id="packs">
+    <div class="section-head">
+      <span class="eyebrow">Les trois packs</span>
+      <h2 class="section-title">Du minimum utile à l'intégration complète</h2>
+    </div>
+
+    <div class="packs">
+
+      <!-- 01 -->
+      <article class="pack">
+        <div class="pack-code"><span>Pack 01</span><span>Le socle</span></div>
+        <h3>Essentiel</h3>
+        <div class="price">
+          <span class="amount">15 000</span><span class="cur">MAD</span>
+        </div>
+        <div class="spec-row"><span>Livraison</span><span>2 semaines</span></div>
+        <div class="spec-row"><span>Maintenance</span><span>500 MAD / mois</span></div>
+
+        <p class="who"><b>Pour vous si</b> toute votre information vit aujourd'hui dans un cahier,
+          un fichier Excel et des conversations WhatsApp.</p>
+
+        <div class="pain">
+          <p class="quote">«&nbsp;Où est l'info&nbsp;?&nbsp;»</p>
+          <p>Retrouver un numéro, une échéance ou un historique prend plus de temps que le travail
+            lui-même. Et une seule personne sait vraiment où tout se trouve — quand elle n'est pas
+            là, l'entreprise ralentit.</p>
+        </div>
+
+        <ul>
+          <li>Une fiche par client, adhérent ou dossier — avec tout l'historique, retrouvée en deux secondes</li>
+          <li>Le planning, l'agenda ou l'inventaire de votre activité, à jour et visible par toute l'équipe</li>
+          <li>Recherche instantanée sur tout&nbsp;: nom, téléphone, date, statut, montant</li>
+          <li>Accessible depuis n'importe quel téléphone ou ordinateur, sans rien installer</li>
+          <li>Vos couleurs, votre logo et vos termes métier — pas ceux d'un logiciel générique</li>
+          <li>Reprise de vos données existantes (Excel, cahier, fichiers)</li>
+          <li>Formation de votre équipe sur place, puis 1 mois de support inclus</li>
+        </ul>
+
+        <div class="gain">
+          <span class="label">Ce que ça change</span>
+          <p>Vous arrêtez de chercher. Et l'entreprise cesse de dépendre de la mémoire d'une seule personne.</p>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="pack">
+        <div class="pack-code"><span>Pack 02</span><span class="flag">Notre recommandation</span></div>
+        <h3>Business</h3>
+        <div class="price">
+          <span class="amount">45 000</span><span class="cur">MAD</span>
+        </div>
+        <div class="spec-row"><span>Livraison</span><span>4 semaines</span></div>
+        <div class="spec-row"><span>Maintenance</span><span>900 MAD / mois</span></div>
+
+        <p class="who"><b>Pour vous si</b> vos clients doivent vous appeler pour la moindre chose,
+          et si votre équipe ressaisit la même information à plusieurs endroits.</p>
+
+        <div class="pain">
+          <p class="quote">«&nbsp;Tout passe par moi.&nbsp;»</p>
+          <p>Chaque réservation, chaque demande, chaque relance réclame une intervention humaine.
+            Le soir et le week-end, l'activité s'arrête simplement parce que personne ne répond.</p>
+        </div>
+
+        <ul>
+          <li class="inherit">Tout le pack Essentiel, plus&nbsp;:</li>
+          <li><b>Un espace client en ligne</b> — réservation, catalogue, menu QR ou demande structurée, selon votre métier</li>
+          <li>Vos clients réservent, consultent et commandent seuls, 24h/24, sans passer par vous</li>
+          <li>Relances automatiques par WhatsApp et e-mail&nbsp;: échéance qui approche, rendez-vous de demain, devis sans réponse</li>
+          <li>Comptes et rôles par poste — chacun voit ce qui le concerne, et rien d'autre</li>
+          <li>Tableau de bord&nbsp;: ce qui rentre, ce qui est en retard, ce qui demande une décision aujourd'hui</li>
+          <li>Des demandes qui arrivent complètes — plus de rappel pour redemander la date ou le budget</li>
+          <li>Formation de l'équipe, puis 3 mois de support et d'ajustements inclus</li>
+        </ul>
+
+        <div class="gain">
+          <span class="label">Ce que ça change</span>
+          <p>Vos clients se servent seuls, les relances partent sans vous, et vous récupérez vos soirées.</p>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="pack">
+        <div class="pack-code"><span>Pack 03</span><span>Sur mesure</span></div>
+        <h3>Intégration complète</h3>
+        <div class="price">
+          <span class="from">dès</span><span class="amount">90 000</span><span class="cur">MAD</span>
+        </div>
+        <div class="spec-row"><span>Livraison</span><span>6 à 10 semaines</span></div>
+        <div class="spec-row"><span>Maintenance</span><span>dès 1 500 MAD / mois</span></div>
+
+        <p class="who"><b>Pour vous si</b> vous avez plusieurs points de vente, plusieurs équipes,
+          ou plusieurs outils qui ne se parlent pas.</p>
+
+        <div class="pain">
+          <p class="quote">«&nbsp;Je pilote à l'impression.&nbsp;»</p>
+          <p>Chaque site a ses chiffres, chaque outil sa version de la vérité, et la consolidation se
+            fait à la main en fin de mois. Les décisions arrivent avec trois semaines de retard sur
+            les faits.</p>
+        </div>
+
+        <ul>
+          <li class="inherit">Tout le pack Business, plus&nbsp;:</li>
+          <li><b>Multi-site et multi-agence</b> — chaque point de vente travaille chez lui, la direction voit l'ensemble</li>
+          <li>Le matériel branché au système&nbsp;: caisse, borne d'accès QR ou badge, écran de cuisine, imprimante tickets, lecteur code-barres</li>
+          <li>Paiement en ligne et encaissement rattachés directement à la fiche client</li>
+          <li>Intégration avec ce que vous utilisez déjà&nbsp;: comptabilité, WhatsApp Business, e-mail, exports pour votre comptable</li>
+          <li>Pilotage direction&nbsp;: chiffre du jour par site, comparaisons, marges, alertes</li>
+          <li>Modules sur mesure propres à votre métier — la règle que vous êtes seul à appliquer, et qu'aucun logiciel du marché ne connaît</li>
+          <li>Formation par site, puis 6 mois de support et d'évolutions inclus</li>
+        </ul>
+
+        <div class="gain">
+          <span class="label">Ce que ça change</span>
+          <p>Une seule vérité pour toute l'entreprise. Vous décidez sur le chiffre du jour, pas sur une impression de fin de mois.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ MATRIX ============ -->
+  <section id="comparatif">
+    <div class="section-head">
+      <span class="eyebrow">Comparatif</span>
+      <h2 class="section-title">Ce que contient chaque pack</h2>
+    </div>
+
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th scope="col">Prestation</th>
+            <th scope="col">Essentiel</th>
+            <th scope="col">Business</th>
+            <th scope="col">Intégration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-head"><th scope="row" colspan="4">Le socle</th></tr>
+          <tr><th scope="row">Fiches clients et historique complet</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Planning, agenda ou inventaire partagé</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Accès téléphone et ordinateur, sans installation</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Vos couleurs, votre logo, vos termes métier</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Reprise de vos données existantes</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+
+          <tr class="group-head"><th scope="row" colspan="4">Vos clients et votre équipe</th></tr>
+          <tr><th scope="row">Espace client en ligne (réservation, catalogue, menu QR)</th>
+            <td class="no">—</td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Relances automatiques WhatsApp et e-mail</th>
+            <td class="no">—</td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Comptes et rôles par poste</th>
+            <td class="no">—</td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Tableau de bord de gestion</th>
+            <td class="no">—</td><td><span class="mark"></span></td><td><span class="mark"></span></td></tr>
+
+          <tr class="group-head"><th scope="row" colspan="4">Toute l'entreprise</th></tr>
+          <tr><th scope="row">Multi-site et multi-agence</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Matériel&nbsp;: caisse, borne QR, écran cuisine, badge</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Paiement en ligne et encaissement</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Intégrations (comptabilité, WhatsApp Business, exports)</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Pilotage direction et analytics</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+          <tr><th scope="row">Modules sur mesure propres à votre métier</th>
+            <td class="no">—</td><td class="no">—</td><td><span class="mark"></span></td></tr>
+
+          <tr class="group-head"><th scope="row" colspan="4">Mise en route</th></tr>
+          <tr><th scope="row">Formation de l'équipe sur place</th>
+            <td><span class="mark"></span></td><td><span class="mark"></span></td><td>par site</td></tr>
+          <tr><th scope="row">Support inclus après le lancement</th>
+            <td>1 mois</td><td>3 mois</td><td>6 mois</td></tr>
+          <tr><th scope="row">Délai de livraison</th>
+            <td>2 sem.</td><td>4 sem.</td><td>6–10 sem.</td></tr>
+          <tr><th scope="row">Maintenance mensuelle</th>
+            <td>500</td><td>900</td><td>dès 1 500</td></tr>
+          <tr class="total"><th scope="row">Investissement</th>
+            <td>15 000 MAD</td><td>45 000 MAD</td><td>dès 90 000 MAD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ DEMOS ============ -->
+  <section id="demos">
+    <div class="section-head">
+      <span class="eyebrow">Cinq systèmes en ligne · ouvrables maintenant</span>
+      <h2 class="section-title">Ne nous croyez pas sur parole. Ouvrez-les.</h2>
+      <p class="lede">Ce ne sont pas des captures d'écran ni des maquettes&nbsp;: ce sont des applications
+        complètes et déployées. Cliquez, créez une fiche, passez une commande, scannez un QR — le
+        système répond. C'est plus vérifiable qu'une liste de références.</p>
+    </div>
+
+    <a class="demo" href="https://appfit-plus.netlify.app" target="_blank" rel="noopener">
+      <span class="swatch" style="background: var(--sys-fit);" aria-hidden="true"></span>
+      <span class="name">FitPulse PRO <span>Adhérents · échéances · présence</span></span>
+      <span class="pitch"><b>À montrer à&nbsp;:</b> salles de sport, centres de formation, écoles de langues,
+        clubs — tout métier avec des adhérents, des échéances de paiement et une présence à contrôler.</span>
+      <span class="url">appfit-plus.netlify.app&nbsp;↗</span>
+    </a>
+
+    <a class="demo" href="https://appreal-estate.netlify.app" target="_blank" rel="noopener">
+      <span class="swatch" style="background: var(--sys-estate);" aria-hidden="true"></span>
+      <span class="name">EstatePulse <span>Catalogue · demandes · suivi commercial</span></span>
+      <span class="pitch"><b>À montrer à&nbsp;:</b> agences immobilières et agences de voyage — tout métier
+        avec un catalogue à présenter, des demandes qui arrivent, et des relances qui se perdent.</span>
+      <span class="url">appreal-estate.netlify.app&nbsp;↗</span>
+    </a>
+
+    <a class="demo" href="https://salonbeautyapp.netlify.app" target="_blank" rel="noopener">
+      <span class="swatch" style="background: var(--sys-salon);" aria-hidden="true"></span>
+      <span class="name">SalonFlow <span>Réservation · calendrier · fiche client</span></span>
+      <span class="pitch"><b>À montrer à&nbsp;:</b> salons, spas, cabinets, centres esthétiques — tout métier
+        qui fonctionne au rendez-vous et où le planning n'existe que dans la tête de l'accueil.</span>
+      <span class="url">salonbeautyapp.netlify.app&nbsp;↗</span>
+    </a>
+
+    <a class="demo" href="https://rastaurant-app.netlify.app" target="_blank" rel="noopener">
+      <span class="swatch" style="background: var(--sys-resto);" aria-hidden="true"></span>
+      <span class="name">Il Piatto — côté client <span>Menu QR · commande à table</span></span>
+      <span class="pitch"><b>À montrer à&nbsp;:</b> restaurants et cafés. Le client scanne le QR de sa table,
+        consulte le menu et commande. C'est la démonstration la plus rapide à faire en rendez-vous.</span>
+      <span class="url">rastaurant-app.netlify.app&nbsp;↗</span>
+    </a>
+
+    <a class="demo" href="https://appmanagerestaurant.netlify.app" target="_blank" rel="noopener">
+      <span class="swatch" style="background: var(--sys-resto);" aria-hidden="true"></span>
+      <span class="name">Il Piatto — côté gérant <span>Commandes · cuisine · livraison · chiffres</span></span>
+      <span class="pitch"><b>À montrer à&nbsp;:</b> le même restaurant, vu du bureau. Ouvrez-le à côté du
+        précédent&nbsp;: la commande passée sur un écran apparaît sur l'autre. C'est ça, «&nbsp;un seul système&nbsp;».</span>
+      <span class="url">appmanagerestaurant.netlify.app&nbsp;↗</span>
+    </a>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section id="deroulement">
+    <div class="section-head">
+      <span class="eyebrow">Déroulement</span>
+      <h2 class="section-title">Comment ça se passe, étape par étape</h2>
+    </div>
+
+    <div class="process">
+      <div class="step">
+        <span class="num">01</span>
+        <h3>Audit de votre fonctionnement</h3>
+        <span class="when">Gratuit · 1 séance</span>
+        <p>On regarde comment votre journée se passe réellement&nbsp;: qui saisit quoi, où, et combien
+          de fois la même information est retapée. Vous repartez avec la liste écrite de vos points
+          de friction — que vous travailliez avec nous ou non.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h3>Blueprint</h3>
+        <span class="when">Semaine 1 à 2</span>
+        <p>Les écrans de votre système, dessinés sur votre métier et avec vos mots. Vous validez avant
+          qu'une seule ligne de code soit écrite. C'est à ce moment que le prix devient ferme —
+          jamais avant d'avoir vu votre fonctionnement.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h3>Construction</h3>
+        <span class="when">Semaine 2 à 6</span>
+        <p>Nous développons. Chaque semaine, vous suivez l'avancement sur un lien réel que vous pouvez
+          ouvrir et essayer vous-même — pas sur des captures d'écran ni un rapport d'avancement.</p>
+      </div>
+      <div class="step">
+        <span class="num">04</span>
+        <h3>Lancement et prise en main</h3>
+        <span class="when">Puis support inclus</span>
+        <p>Mise en ligne, reprise de vos données, et formation de l'équipe sur place. Nous restons
+          disponibles pendant que le système devient l'outil de tous les jours, pas juste un
+          logiciel de plus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="questions">
+    <div class="section-head">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2 class="section-title">Ce que les dirigeants nous demandent</h2>
+    </div>
+
+    <div class="faq">
+      <div class="qa">
+        <h3>Est-ce que le système m'appartient&nbsp;?</h3>
+        <p>Oui. Le code et les données sont à vous. Pas d'abonnement par utilisateur, pas de licence
+          qui augmente quand votre équipe grandit. La maintenance mensuelle couvre l'hébergement, les
+          sauvegardes et le support — et elle est arrêtable.</p>
+      </div>
+      <div class="qa">
+        <h3>Mon équipe n'est pas à l'aise avec l'informatique.</h3>
+        <p>C'est la contrainte de départ, pas un obstacle. Nos écrans sont conçus pour être utilisés
+          debout, à l'accueil, entre deux clients. La formation sur place est incluse dans les trois
+          packs, et le support répond en français comme en darija.</p>
+      </div>
+      <div class="qa">
+        <h3>Combien de temps avant que ça tourne vraiment&nbsp;?</h3>
+        <p>De 2 à 10 semaines selon le pack. Et vous n'attendez pas la fin pour voir&nbsp;: dès la
+          deuxième semaine, l'avancement est consultable sur un lien réel que vous pouvez essayer.</p>
+      </div>
+      <div class="qa">
+        <h3>Et si mes besoins changent dans six mois&nbsp;?</h3>
+        <p>C'est un système sur mesure, pas un logiciel figé. Ajouter un module, un point de vente ou
+          un rôle est prévu dès la conception — c'est précisément la différence avec un abonnement
+          où vous attendez que l'éditeur décide.</p>
+      </div>
+      <div class="qa">
+        <h3>Pourquoi pas un logiciel du marché, moins cher&nbsp;?</h3>
+        <p>Si un logiciel du marché fait exactement ce dont vous avez besoin, prenez-le — nous vous le
+          dirons pendant l'audit. Nous intervenons quand votre métier a une règle qu'aucun logiciel
+          standard ne connaît. C'est justement cette règle qui vous fait perdre du temps chaque jour.</p>
+      </div>
+      <div class="qa">
+        <h3>Vos clients, c'est qui&nbsp;?</h3>
+        <p>Veloce Studio est un studio récent. Les cinq systèmes de cette fiche sont des applications
+          complètes que nous avons construites et déployées, et que vous pouvez ouvrir et utiliser
+          maintenant — c'est plus vérifiable qu'une liste de noms. C'est aussi pourquoi nos tarifs
+          sont ceux d'un studio qui construit sa référence.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ CTA ============ -->
+<div class="cta">
+  <div class="cta-inner">
+    <div>
+      <h2>La première étape est gratuite et ne vous engage à rien.</h2>
+      <p>Une séance d'audit, sur place ou à distance. Nous regardons votre fonctionnement réel et
+        vous repartez avec la liste de ce qui vous coûte du temps — même si vous décidez de ne rien
+        construire avec nous.</p>
+    </div>
+    <div class="contact">
+      <a class="contact-row" href="https://wa.me/212659592823" target="_blank" rel="noopener">
+        <span class="k">WhatsApp</span><span class="v">+212 659 592 823</span>
+      </a>
+      <a class="contact-row" href="https://veloce-studio.netlify.app" target="_blank" rel="noopener">
+        <span class="k">Site</span><span class="v">veloce-studio.netlify.app</span>
+      </a>
+      <div class="contact-row">
+        <span class="k">Zone</span><span class="v">Casablanca · Rabat · Salé</span>
+      </div>
+      <div class="contact-row">
+        <span class="k">Votre contact</span><span class="v">&nbsp;</span>
+      </div>
+    </div>
+  </div>
+  <div class="fineprint">
+    <span>Tarifs en dirhams marocains, hors taxes. Paiement en trois fois&nbsp;: 40&nbsp;% au démarrage, 30&nbsp;% à la validation du blueprint, 30&nbsp;% à la livraison.</span>
+    <span>Les périmètres décrits couvrent la très grande majorité des cas. Le chiffre ferme est confirmé après l'audit gratuit. Grille valable pour l'exercice 2026.</span>
+  </div>
+</div>
