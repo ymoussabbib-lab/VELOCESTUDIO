@@ -10,6 +10,7 @@ const navItems = [
   { href: '/#work', label: 'Work' },
   { href: '/#process', label: 'Process' },
   { href: '/#about', label: 'About' },
+  { href: '/offres', label: 'Pricing' },
 ];
 
 interface HeaderProps {

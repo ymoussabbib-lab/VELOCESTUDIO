@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   title: 'Grille tarifaire - Veloce Studio',
   description:
     'Trois packs pour remplacer le cahier, l’Excel et les conversations WhatsApp par un seul système : Essentiel, Business et Intégration complète.',
-  robots: { index: false, follow: false },
 };
 
 const PRINT_CSS = `
@@ -380,7 +379,7 @@ export default function OffresPage() {
                 <span className="self-center text-[10.5px] uppercase tracking-[0.11em] text-on-dark-muted">
                   Votre contact
                 </span>
-                <span>&nbsp;</span>
+                <span>Mohamed Mabsout · 06 59 59 28 23</span>
               </div>
             </div>
           </div>
