@@ -365,11 +365,11 @@ export default function OffresPage() {
                 <span>+212 659 592 823</span>
               </a>
               <a
-                href="https://veloce-studio.netlify.app"
+                href="https://velocestudio.tech"
                 className="flex justify-between gap-4 border-b border-line-dark py-2.5 text-on-dark hover:text-accent"
               >
                 <span className="self-center text-[10.5px] uppercase tracking-[0.11em] text-on-dark-muted">Site</span>
-                <span>veloce-studio.netlify.app</span>
+                <span>velocestudio.tech</span>
               </a>
               <div className="flex justify-between gap-4 border-b border-line-dark py-2.5">
                 <span className="self-center text-[10.5px] uppercase tracking-[0.11em] text-on-dark-muted">Zone</span>
