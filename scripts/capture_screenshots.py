@@ -3,11 +3,11 @@ import asyncio
 from playwright.async_api import async_playwright
 
 TARGET_APPS = [
-    {"name": "fitpulse", "url": "https://appfit-plus.netlify.app"},
-    {"name": "estatepulse", "url": "https://appreal-estate.netlify.app"},
-    {"name": "salonflow", "url": "https://salonbeautyapp.netlify.app"},
-    {"name": "restaurant-kds", "url": "https://appmanagerestaurant.netlify.app"},
-    {"name": "restaurant-menu", "url": "https://rastaurant-app.netlify.app"}
+    {"name": "fitpulse", "url": "https://gym.velocestudio.tech"},
+    {"name": "estatepulse", "url": "https://immobilier.velocestudio.tech"},
+    {"name": "salonflow", "url": "https://salon.velocestudio.tech"},
+    {"name": "restaurant-kds", "url": "https://resto-manager.velocestudio.tech"},
+    {"name": "restaurant-menu", "url": "https://resto.velocestudio.tech"}
 ]
 
 async def capture_all_screenshots():

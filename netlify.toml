@@ -3,3 +3,48 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Branded demo subdomains.
+#
+# The 5 demo apps live on a separate Netlify account (ymoussabbib-lab), so their
+# subdomains cannot be registered as custom domains there: veloce-studio owns the
+# velocestudio.tech zone and Netlify scopes domain ownership per team. Instead the
+# subdomains are aliases of THIS site and each one forwards to its origin.
+#
+# These are 301s, not 200-proxies. A 200 rewrite was tried first and fails: Netlify's
+# edge returns 500 when proxying to another Netlify-hosted origin (verified 2026-09-08 —
+# the identical rule proxying to a non-Netlify origin returned 200). Since all 5 demos
+# are *.netlify.app, proxying cannot work until they move off this account.
+#
+# Consequence: the visitor's address bar shows the .netlify.app host after the hop.
+# force = true is required to win over the Next.js catch-all.
+
+[[redirects]]
+  from = "https://gym.velocestudio.tech/*"
+  to = "https://appfit-plus.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://immobilier.velocestudio.tech/*"
+  to = "https://appreal-estate.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://salon.velocestudio.tech/*"
+  to = "https://salonbeautyapp.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://resto.velocestudio.tech/*"
+  to = "https://rastaurant-app.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://resto-manager.velocestudio.tech/*"
+  to = "https://appmanagerestaurant.netlify.app/:splat"
+  status = 301
+  force = true

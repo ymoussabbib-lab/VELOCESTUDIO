@@ -18,7 +18,7 @@ business is a factual claim made to a specific person to win a specific sale.
 
 | Ledger | Real? | Verified |
 |---|---|---|
-| 5 live demo apps, HTTP 200, clickable, fully usable | Real | curl, 2026-09-03 |
+| 5 live demo apps, HTTP 200, clickable, fully usable | Real | curl, 2026-09-03 (pre-subdomain cutover) |
 | 40 product screenshots at 1920px | Real | `public/assets/better-quality/` |
 | Studio site velocestudio.tech | Real | pending DNS cutover, 2026-09-07 |
 | Per-prospect audit findings in each email | Real | DNS + HTTP, 2026-09-03 |
@@ -79,7 +79,7 @@ single shared address `info@gls-sprachzentrum.ma` for all six. The site also run
 exams, certificate verification, attestation requests and translation tracking. Large operational surface, no
 visible shared student record.
 
-**Demo to link:** FitPulse PRO — `https://appfit-plus.netlify.app`
+**Demo to link:** FitPulse PRO — `https://gym.velocestudio.tech`
 Structural match: members → students · membership plans → course cycles · payments/expiry → tuition
 instalments · QR check-in → classroom attendance.
 
@@ -100,7 +100,7 @@ dans aucun dossier commun.
 Nous construisons exactement ce dossier commun. Voici un de nos systèmes, en
 ligne, que vous pouvez ouvrir et utiliser maintenant :
 
-https://appfit-plus.netlify.app
+https://gym.velocestudio.tech
 
 Ce n'est pas une maquette : c'est une application réelle, déployée et
 fonctionnelle. Adhérents, échéances, paiements, pointage QR. Remplacez
@@ -134,7 +134,7 @@ No email field, no destination, no dates, no traveller count, no budget. Meanwhi
 destinations are Omra (Mawlid + October), Istanbul, Malaisie, Toubkal. Two branches: Salé and Casablanca.
 Operating since 2014, positions itself as an e-tourism player.
 
-**Demo to link:** EstatePulse — `https://appreal-estate.netlify.app`
+**Demo to link:** EstatePulse — `https://immobilier.velocestudio.tech`
 Structural match: property inventory → départs/packages · buyer lead → voyageur · visit scheduling → date de
 départ · agent pipeline → suivi entre Salé et Casablanca.
 
@@ -159,7 +159,7 @@ questions. Et entre Salé et Casablanca, personne ne sait qui a déjà rappelé.
 Voici un système de suivi de demandes que nous avons construit — en ligne,
 ouvrable tout de suite :
 
-https://appreal-estate.netlify.app
+https://immobilier.velocestudio.tech
 
 Il est fait pour l'immobilier, mais la mécanique est la vôtre : une demande
 entre qualifiée, elle est assignée à un agent, planifiée, relancée — et rien
@@ -194,7 +194,7 @@ same generic homepage title and description. Their own meta description reads *"
 prix garanti"*, yet there is no booking or inquiry form in the delivered markup. Social:
 instagram.com/wegotravel, facebook.com/wegotravel.
 
-**Demo to link:** EstatePulse — `https://appreal-estate.netlify.app` (public catalogue + inquiry + agency pipeline)
+**Demo to link:** EstatePulse — `https://immobilier.velocestudio.tech` (public catalogue + inquiry + agency pipeline)
 
 **Subject A:** `Testez : collez un lien de vos circuits dans WhatsApp`
 **Subject B:** `Vos circuits perdent leur photo quand un client les partage`
@@ -223,7 +223,7 @@ Les demandes finissent donc en message privé, à traiter à la main.
 
 Voici ce que nous construisons — en ligne, ouvrable maintenant :
 
-https://appreal-estate.netlify.app
+https://immobilier.velocestudio.tech
 
 Catalogue public consultable, demande structurée côté client, pipeline de suivi
 côté agence. C'est un système réel, pas une maquette : vous pouvez cliquer
@@ -262,7 +262,7 @@ still deliver.
 This is the strongest opener in the batch: urgent, free for them to verify, costing them money right now, and
 it proves real work was done before writing.
 
-**Demo to link:** FitPulse PRO — `https://appfit-plus.netlify.app`
+**Demo to link:** FitPulse PRO — `https://gym.velocestudio.tech`
 Structural match: members → stagiaires · plans → sessions de formation · payments/expiry → tranches ·
 QR check-in → feuille de présence.
 
@@ -294,7 +294,7 @@ vous intéresse pas. Nous construisons des systèmes de gestion pour les centres
 de formation : inscriptions, sessions, présence, tranches de paiement. Un de nos
 systèmes est en ligne, vous pouvez l'ouvrir et l'utiliser maintenant :
 
-https://appfit-plus.netlify.app
+https://gym.velocestudio.tech
 
 Il est bâti pour une salle de sport, mais la structure est identique à la vôtre :
 une fiche par personne, un cycle avec une date de fin, des paiements échelonnés,
@@ -395,7 +395,7 @@ fin de mois — combien d'essais, combien d'abonnements, quel pourcentage. Rien
 qui touche aux systèmes du réseau.
 
 Un aperçu de notre travail, en ligne et cliquable :
-https://appfit-plus.netlify.app
+https://gym.velocestudio.tech
 
 Dix minutes au téléphone si le sujet vous intéresse. Sinon, indiquez-moi la
 bonne personne et je ne vous relancerai pas.
@@ -491,7 +491,7 @@ en 2 minutes. Sinon je ne vous dérange plus.
 ## 10. Assets we have — and the one we don't
 
 **Have, verified 2026-09-03:**
-- 5 live demo apps, all HTTP 200: appfit-plus · appreal-estate · salonbeautyapp · rastaurant-app · appmanagerestaurant (all `.netlify.app`)
+- 5 live demo apps: gym · immobilier · salon · resto · resto-manager (all `*.velocestudio.tech`, HTTP 200 verified on the old `.netlify.app` hosts 2026-09-03; re-verify after the subdomain cutover)
 - 40 screenshots at 1920px in `public/assets/better-quality/` (4 verticals × manager + client)
 - Studio site: velocestudio.tech
 
