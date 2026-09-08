@@ -39,7 +39,7 @@ export function Hero() {
             {[salonflow, estatepulse].map((project) => (
               <div key={project.slug} className="border border-line bg-paper p-3 shadow-[5px_5px_0_#D6D1C5]">
                 <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-grey-600">{project.name}</p>
-                <Image src={project.managerAssets[0].src} alt={project.managerAssets[0].alt} width={project.managerAssets[0].width} height={project.managerAssets[0].height} sizes="(min-width: 1024px) 23vw, 46vw" className="aspect-[16/9] w-full object-cover" />
+                <Image src={project.managerAssets[0].src} alt={project.managerAssets[0].alt} width={project.managerAssets[0].width} height={project.managerAssets[0].height} sizes="(min-width: 1024px) 23vw, 46vw" className="aspect-[16/10] w-full object-cover object-top" />
               </div>
             ))}
           </div>

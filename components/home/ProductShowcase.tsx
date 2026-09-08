@@ -5,37 +5,37 @@ import { PROJECTS } from '@/data/projects';
 import type { MarketingAsset } from '@/data/assetManifest';
 
 const FRAME_RATIO = 16 / 10;
+const MAX_GROWTH = 1.4;
 const PREVIEW_SIZES = '(min-width: 1024px) 29vw, (min-width: 640px) 44vw, 100vw';
 
 // Screenshots vary widely: manager shots are landscape (~1920x900) but client
-// shots are tall phone captures (up to 1920x3962). Both sit in a shared 16:10
-// frame so the two previews always match height and the row carries no dead
-// space. The image is `object-contain` scaled to fill that frame the way
-// `object-cover` would. `contain` fits by width when the image is wider than the
-// frame and by height when it is narrower, so the covering scale is whichever of
-// the two ratios exceeds 1 -- using width/height alone shrinks every tall shot.
-// Hovering returns it to scale 1, revealing the full uncropped shot without
-// changing the frame, so nothing on the page moves.
-function Preview({ asset, className = '' }: { asset: MarketingAsset; className?: string }) {
-  const ratio = asset.width / asset.height / FRAME_RATIO;
-  const coverScale = Math.max(ratio, 1 / ratio).toFixed(3);
+// shots are full-page captures up to 1920x4618. Every preview is cropped into a
+// shared 16:10 frame so the two previews match height and the row carries no
+// dead space. Hovering lifts the frame and grows it downward over the page
+// rather than in flow, so nothing below shifts. Growth is capped at what the
+// crop actually hides: a full-page capture has frame-heights left to reveal,
+// while a landscape dashboard has none and a taller frame would only zoom into
+// an unreadable middle.
+function Preview({ asset, href, className = '' }: { asset: MarketingAsset; href: string; className?: string }) {
+  const growth = Math.min(MAX_GROWTH, Math.max(1, FRAME_RATIO / (asset.width / asset.height))).toFixed(3);
 
   return (
-    <div
-      data-preview
-      className={`group/preview relative aspect-[16/10] overflow-hidden border bg-paper transition-colors duration-200 ${className}`}
-      style={{ '--cover-scale': coverScale } as CSSProperties}
-    >
-      <Image
-        src={asset.src}
-        alt={asset.alt}
-        width={asset.width}
-        height={asset.height}
-        sizes={PREVIEW_SIZES}
-        loading="lazy"
-        className="h-full w-full origin-top scale-[var(--cover-scale)] object-contain object-top transition-transform duration-500 ease-out group-hover/preview:scale-100 motion-reduce:transition-none"
-      />
-    </div>
+    <Link href={href} data-preview className="group/preview relative block aspect-[16/10]">
+      <span
+        style={{ '--grow': growth } as CSSProperties}
+        className={`absolute inset-x-0 top-0 block h-full overflow-hidden border bg-paper transition-[height,box-shadow,border-color] duration-300 ease-out group-hover/preview:z-20 group-hover/preview:h-[calc(100%*var(--grow))] group-hover/preview:shadow-[8px_8px_0_#17150F] group-focus-visible/preview:z-20 group-focus-visible/preview:h-[calc(100%*var(--grow))] group-focus-visible/preview:shadow-[8px_8px_0_#17150F] motion-reduce:transition-none ${className}`}
+      >
+        <Image
+          src={asset.src}
+          alt={asset.alt}
+          width={asset.width}
+          height={asset.height}
+          sizes={PREVIEW_SIZES}
+          loading="lazy"
+          className="h-full w-full object-cover object-top transition-transform duration-300 ease-out group-hover/preview:scale-[1.02] motion-reduce:transition-none"
+        />
+      </span>
+    </Link>
   );
 }
 
@@ -69,8 +69,8 @@ export function ProductShowcase() {
                 </Link>
               </div>
               <div className="grid content-start gap-4 sm:grid-cols-2">
-                <Preview asset={project.managerAssets[0]} className="border-ink" />
-                <Preview asset={project.clientAssets[0]} className="border-line hover:border-ink" />
+                <Preview asset={project.managerAssets[0]} href={`/work/${project.slug}`} className="border-ink" />
+                <Preview asset={project.clientAssets[0]} href={`/work/${project.slug}`} className="border-line group-hover/preview:border-ink" />
               </div>
             </article>
           ))}
